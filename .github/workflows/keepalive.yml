@@ -1,1 +1,26 @@
+name: Keep Supabase Alive
 
+on:
+  schedule:
+    - cron: '0 6 */3 * *'  # Berjalan setiap 3 hari sekali pukul 06:00 UTC
+  workflow_dispatch:        # Bisa dijalankan manual dari tab Actions
+
+jobs:
+  keep-alive:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Run supawake ping
+        run: |
+          mkdir -p "$HOME/.config/supawake"
+          echo "$SUPAWAKE_CONFIG" > "$HOME/.config/supawake/config.json"
+          npx supawake ping
+        env:
+          SUPAWAKE_CONFIG: ${{ secrets.SUPAWAKE_CONFIG }}
