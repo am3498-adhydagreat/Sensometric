@@ -13,25 +13,20 @@ jobs:
       - name: Ping Supabase Database
         shell: bash
         env:
-          SUPAWAKE_CONFIG: ${{ secrets.SUPAWAKE_CONFIG }}
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_KEY: ${{ secrets.SUPABASE_PUBLISHABLE_KEY }}
         run: |
           set -euo pipefail
 
-          if [ -z "${SUPAWAKE_CONFIG:-}" ]; then
-            echo "❌ Secret SUPAWAKE_CONFIG kosong atau tidak tersedia."
+          if [ -z "${SUPABASE_URL:-}" ]; then
+            echo "❌ Secret SUPABASE_URL belum diisi."
             exit 1
           fi
 
-          SUPABASE_URL="$(jq -er '
-            .projects[0].url
-            | select(type == "string" and length > 0)
-          ' <<< "$SUPAWAKE_CONFIG")"
-
-          SUPABASE_KEY="$(jq -er '
-            .projects[0].publishableKey //
-            .projects[0].anonKey
-            | select(type == "string" and length > 0)
-          ' <<< "$SUPAWAKE_CONFIG")"
+          if [ -z "${SUPABASE_KEY:-}" ]; then
+            echo "❌ Secret SUPABASE_PUBLISHABLE_KEY belum diisi."
+            exit 1
+          fi
 
           SUPABASE_URL="${SUPABASE_URL%/}"
 
