@@ -2,37 +2,58 @@ name: Keep Supabase Alive
 
 on:
   schedule:
-    - cron: '0 6 */3 * *'
+    - cron: "0 6 */3 * *"
   workflow_dispatch:
 
 jobs:
   keep-alive:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Ping Supabase (Direct REST API)
+      - name: Ping Supabase Database
+        shell: bash
+        env:
+          SUPAWAKE_CONFIG: ${{ secrets.SUPAWAKE_CONFIG }}
         run: |
-          # Ambil URL dan Key langsung dari secret tanpa JSON
-          SUPABASE_URL="${{ secrets.SUPABASE_URL }}"
-          SUPABASE_ANON_KEY="${{ secrets.SUPABASE_ANON_KEY }}"
-          
-          # Cek apakah URL dan Key berhasil diambil
-          if [ -z "$SUPABASE_URL" ] || [ -z "$SUPABASE_ANON_KEY" ]; then
-            echo "❌ Gagal membaca URL atau Key. Pastikan secret 'SUPABASE_URL' dan 'SUPABASE_ANON_KEY' sudah dibuat."
+          set -euo pipefail
+
+          if [ -z "${SUPAWAKE_CONFIG:-}" ]; then
+            echo "❌ Secret SUPAWAKE_CONFIG kosong atau tidak tersedia."
             exit 1
           fi
-          
-          # Kirim request ke tabel keepalive
-          echo "Menghubungi $SUPABASE_URL..."
-          STATUS=$(curl -s -o /dev/null -w "%{http_code}" \
-            -H "apikey: $SUPABASE_ANON_KEY" \
-            -H "Authorization: Bearer $SUPABASE_ANON_KEY" \
-            "$SUPABASE_URL/rest/v1/keepalive?select=id&limit=1")
-          
-          echo "Status koneksi: $STATUS"
-          
-          if [ "$STATUS" -eq 200 ]; then
-            echo "✅ Database Supabase berhasil dijaga tetap aktif!"
+
+          SUPABASE_URL="$(jq -er '
+            .projects[0].url
+            | select(type == "string" and length > 0)
+          ' <<< "$SUPAWAKE_CONFIG")"
+
+          SUPABASE_KEY="$(jq -er '
+            .projects[0].publishableKey //
+            .projects[0].anonKey
+            | select(type == "string" and length > 0)
+          ' <<< "$SUPAWAKE_CONFIG")"
+
+          SUPABASE_URL="${SUPABASE_URL%/}"
+
+          echo "Menghubungi Supabase..."
+
+          STATUS="$(curl \
+            --silent \
+            --show-error \
+            --connect-timeout 15 \
+            --max-time 30 \
+            --output response.json \
+            --write-out "%{http_code}" \
+            -H "apikey: $SUPABASE_KEY" \
+            "$SUPABASE_URL/rest/v1/studies?select=id&limit=1")"
+
+          echo "HTTP status: $STATUS"
+
+          if [ "$STATUS" = "200" ]; then
+            echo "✅ Database Supabase berhasil diakses."
           else
-            echo "❌ Gagal terhubung (Status $STATUS). Pastikan tabel 'keepalive' sudah dibuat di Supabase."
+            echo "❌ Supabase mengembalikan error:"
+            head -c 1000 response.json
+            echo
             exit 1
           fi
