@@ -40,7 +40,7 @@ jobs:
             --output response.json \
             --write-out "%{http_code}" \
             -H "apikey: $SUPABASE_KEY" \
-            "$SUPABASE_URL/rest/v1/studies?select=id&limit=1")"
+            "$SUPABASE_URL/rest/v1/keepalive?select=id&limit=1")"
 
           echo "HTTP status: $STATUS"
 
