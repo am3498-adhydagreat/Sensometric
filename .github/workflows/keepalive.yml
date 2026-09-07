@@ -2,6 +2,43 @@ name: Keep Supabase Alive
 
 on:
   schedule:
+    - cron: '0 6 */3 * *'
+  workflow_dispatch:
+
+jobs:
+  keep-alive:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping Supabase (Direct REST API)
+        run: |
+          # Ambil URL dan Key dari secret JSON
+          SUPABASE_URL=$(echo '${{ secrets.SUPAWAKE_CONFIG }}' | jq -r '.projects[0].url')
+          SUPABASE_ANON_KEY=$(echo '${{ secrets.SUPAWAKE_CONFIG }}' | jq -r '.projects[0].anonKey')
+          
+          # Cek apakah URL dan Key berhasil diambil
+          if [ -z "$SUPABASE_URL" ] || [ -z "$SUPABASE_ANON_KEY" ]; then
+            echo "❌ Gagal membaca URL atau Key dari secret. Cek format JSON di GitHub Secrets."
+            exit 1
+          fi
+          
+          # Kirim request ke tabel keepalive
+          echo "Menghubungi $SUPABASE_URL..."
+          STATUS=$(curl -s -o /dev/null -w "%{http_code}" \
+            -H "apikey: $SUPABASE_ANON_KEY" \
+            -H "Authorization: Bearer $SUPABASE_ANON_KEY" \
+            "$SUPABASE_URL/rest/v1/keepalive?select=id&limit=1")
+          
+          echo "Status koneksi: $STATUS"
+          
+          if [ "$STATUS" -eq 200 ]; then
+            echo "✅ Database Supabase berhasil dijaga tetap aktif!"
+          else
+            echo "❌ Gagal terhubung (Status $STATUS). Pastikan tabel 'keepalive' sudah dibuat di Supabase."
+            exit 1
+          finame: Keep Supabase Alive
+
+on:
+  schedule:
     - cron: '0 6 */3 * *'  # Berjalan setiap 3 hari sekali pukul 06:00 UTC
   workflow_dispatch:        # Bisa dijalankan manual dari tab Actions
 
