@@ -1,0 +1,17 @@
+SENSOMETRIX — PILIHAN BAHASA
+
+Ganti index.html dan tambahkan sensometrix-language.js di folder aplikasi yang sama.
+Pertahankan config.js, sensometrix-core.js, dan qrcode.min.js.
+Paket ini menyertakan qrcode.min.js untuk kompatibilitas update sebelumnya.
+
+Pilih ID · Indonesia atau EN · English pada halaman masuk atau bagian atas aplikasi.
+Pilihan tersimpan pada browser yang digunakan.
+Nama studi, teks pertanyaan, dan jawaban tidak diterjemahkan otomatis.
+Pesan mentah dari database/server tetap dalam bahasa asalnya.
+
+Tidak ada migrasi SQL baru untuk perubahan bahasa ini.
+Fitur arsip tetap memerlukan migrasi workspace_tools dari update sebelumnya.
+Jika logo lama masih muncul, pastikan index.html diganti pada folder hosting yang benar dan lakukan hard refresh.
+
+Validasi: sintaks JavaScript serta kamus label, angka dinamis, dan kedua pemilih bahasa diperiksa lokal.
+Pengujian visual browser dan koneksi database langsung belum dijalankan.
