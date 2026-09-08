@@ -170,6 +170,94 @@
     };
   }
 
+  function sensoryMatrix(responses, samples, attributes, replicate = 'all') {
+    const filtered = (responses || []).filter(response => {
+      if (replicate === 'all') return true;
+      return Number(response.replicate_number) === Number(replicate);
+    });
+    const buckets = new Map();
+    for (const response of filtered) {
+      const value = Number(response.value_num);
+      if (!Number.isFinite(value)) continue;
+      const key = `${response.sample_id}|${response.attribute_id}`;
+      const values = buckets.get(key) || [];
+      buckets.set(key, [...values, value]);
+    }
+    const values = (samples || []).map(sample => (attributes || []).map(attribute => {
+      const bucket = buckets.get(`${sample.id}|${attribute.id}`) || [];
+      return bucket.length ? round(bucket.reduce((sum, value) => sum + value, 0) / bucket.length, 6) : null;
+    }));
+    return {
+      sampleIds: (samples || []).map(sample => sample.id),
+      attributeIds: (attributes || []).map(attribute => attribute.id),
+      values,
+      responseCount: filtered.filter(response => Number.isFinite(Number(response.value_num))).length,
+      replicate
+    };
+  }
+
+  function jacobiEigen(matrix) {
+    const size = matrix.length;
+    const values = matrix.map(row => [...row]);
+    const vectors = Array.from({length: size}, (_, row) => Array.from({length: size}, (_, column) => row === column ? 1 : 0));
+    const maxIterations = Math.max(50, size * size * 100);
+    for (let iteration = 0; iteration < maxIterations; iteration += 1) {
+      let p = 0, q = 1, largest = 0;
+      for (let row = 0; row < size; row += 1) {
+        for (let column = row + 1; column < size; column += 1) {
+          const magnitude = Math.abs(values[row][column]);
+          if (magnitude > largest) [largest, p, q] = [magnitude, row, column];
+        }
+      }
+      if (largest < 1e-12) break;
+      const angle = 0.5 * Math.atan2(2 * values[p][q], values[q][q] - values[p][p]);
+      const cosine = Math.cos(angle), sine = Math.sin(angle);
+      const pp = values[p][p], qq = values[q][q], pq = values[p][q];
+      for (let index = 0; index < size; index += 1) {
+        if (index === p || index === q) continue;
+        const ip = values[index][p], iq = values[index][q];
+        values[index][p] = values[p][index] = cosine * ip - sine * iq;
+        values[index][q] = values[q][index] = sine * ip + cosine * iq;
+      }
+      values[p][p] = cosine * cosine * pp - 2 * sine * cosine * pq + sine * sine * qq;
+      values[q][q] = sine * sine * pp + 2 * sine * cosine * pq + cosine * cosine * qq;
+      values[p][q] = values[q][p] = 0;
+      for (let row = 0; row < size; row += 1) {
+        const vp = vectors[row][p], vq = vectors[row][q];
+        vectors[row][p] = cosine * vp - sine * vq;
+        vectors[row][q] = sine * vp + cosine * vq;
+      }
+    }
+    return Array.from({length: size}, (_, index) => ({
+      value: Math.max(0, values[index][index]),
+      vector: vectors.map(row => row[index])
+    })).sort((left, right) => right.value - left.value);
+  }
+
+  function pca(matrix, mode = 'correlation') {
+    if (!['correlation', 'covariance'].includes(mode)) throw new Error('PCA mode must be correlation or covariance');
+    if (!Array.isArray(matrix) || matrix.length < 2 || !Array.isArray(matrix[0]) || matrix[0].length < 2) throw new Error('PCA requires at least two products and two attributes');
+    const columnCount = matrix[0].length;
+    if (matrix.some(row => !Array.isArray(row) || row.length !== columnCount || row.some(value => typeof value !== 'number' || !Number.isFinite(value)))) throw new Error('PCA requires a complete numeric matrix');
+    const means = Array.from({length: columnCount}, (_, column) => matrix.reduce((sum, row) => sum + row[column], 0) / matrix.length);
+    const variances = means.map((mean, column) => matrix.reduce((sum, row) => sum + ((row[column] - mean) ** 2), 0) / (matrix.length - 1));
+    const includedColumnIndices = variances.map((variance, index) => variance > 1e-12 ? index : null).filter(index => index !== null);
+    const excludedColumnIndices = variances.map((variance, index) => variance <= 1e-12 ? index : null).filter(index => index !== null);
+    if (includedColumnIndices.length < 2) throw new Error('PCA requires at least two varying attributes');
+    const transformed = matrix.map(row => includedColumnIndices.map(column => {
+      const centered = row[column] - means[column];
+      return mode === 'correlation' ? centered / Math.sqrt(variances[column]) : centered;
+    }));
+    const covariance = includedColumnIndices.map((_, left) => includedColumnIndices.map((__, right) => transformed.reduce((sum, row) => sum + row[left] * row[right], 0) / (matrix.length - 1)));
+    const eigen = jacobiEigen(covariance);
+    const eigenvalues = eigen.map(item => round(item.value, 8));
+    const totalVariance = eigenvalues.reduce((sum, value) => sum + value, 0);
+    const explainedVariance = eigenvalues.map(value => round(totalVariance ? value / totalVariance * 100 : 0, 6));
+    const scores = transformed.map(row => eigen.map(item => round(row.reduce((sum, value, index) => sum + value * item.vector[index], 0), 6)));
+    const loadings = includedColumnIndices.map((_, row) => eigen.map(item => round(item.vector[row] * Math.sqrt(item.value), 6)));
+    return {mode, eigenvalues, explainedVariance, scores, loadings, includedColumnIndices, excludedColumnIndices, means: includedColumnIndices.map(index => round(means[index], 6)), scales: includedColumnIndices.map(index => round(mode === 'correlation' ? Math.sqrt(variances[index]) : 1, 6))};
+  }
+
   function combination(n, k) {
     const m = Math.min(k, n - k);
     let value = 1;
@@ -196,6 +284,8 @@
     groupNumericResponses,
     oneWayAnova,
     jarPenalty,
+    sensoryMatrix,
+    pca,
     triangleExact
   };
 });
