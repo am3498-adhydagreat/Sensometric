@@ -1,0 +1,28 @@
+SENSOMETRIX — UPDATE FITUR 4–7
+
+1. Pastikan migrasi 202609080001_secure_collection.sql versi JSONB sebelumnya sudah berhasil.
+2. Jalankan 202609080002_workspace_tools.sql di SQL Editor. Migrasi ini menambah arsip dan fungsi pemulihannya.
+3. Unggah index.html dan qrcode.min.js ke folder aplikasi yang sama.
+   Tetap gunakan config.js dan sensometrix-core.js milik aplikasi Anda.
+4. Muat ulang halaman.
+
+FITUR
+- Undangan: Studi Saya > Undangan (studi berlangsung), atau Desain > Kelola undangan.
+  Tersedia salin tautan pribadi, QR, unduh QR PNG, CSV, masa berlaku, dan status pemakaian.
+  Tautan memakai domain tempat aplikasi dibuka. Buat undangan dari URL aplikasi yang dapat diakses panelis.
+  Tautan mengisi formulir panelis; panelis tetap menekan tombol bergabung.
+  Fungsi penerbitan undangan lama dapat memperbarui token kedaluwarsa yang belum pernah diklaim.
+- Monitor: filter status dan pencarian kode, termasuk panelis dalam desain yang belum bergabung.
+- Arsip: tersedia untuk Draft/Selesai. Studi berlangsung harus difinalkan terlebih dahulu.
+  Arsip tidak menghapus data; gunakan tab Arsip > Pulihkan.
+- Duplikat: menyalin sampel dan pertanyaan menjadi Draft baru.
+  Respons, sesi, urutan penyajian, dan undangan tidak disalin.
+- Ekspor: CSV respons mentah mencakup indikator kelengkapan sesi.
+  Rekap sampel/pertanyaan/replikasi mencakup jumlah respons lengkap dan belum lengkap.
+  Rata-rata hanya untuk skala numerik dari sesi lengkap; triangle/kategori tidak dirata-ratakan.
+  Status rekap menerangkan respons yang tersedia, bukan jaminan seluruh target panelis telah merespons.
+
+VALIDASI
+Sintaks JavaScript, URL undangan, pemisahan sesi lengkap/parsial,
+rata-rata, indikator tanpa data, dan progres belum bergabung telah diuji lokal.
+Migrasi belum dijalankan terhadap database Anda; tampilan dan alur browser belum diuji.
