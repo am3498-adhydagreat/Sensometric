@@ -45,7 +45,12 @@
     .toast{position:fixed;right:24px;bottom:24px;background:#123c3a;color:white;padding:13px 17px;border-radius:13px;box-shadow:var(--shadow);z-index:100;transform:translateY(90px);opacity:0;transition:.3s;font-size:12px}.toast.show{transform:none;opacity:1}
     @media(max-width:1050px){.app{grid-template-columns:82px 1fr}.sidebar{padding:23px 11px}.logo{padding:0 10px 25px}.logo-copy,.nav-label,.nav button span:not(.ico),.nav .badge,.sidebar-foot{display:none}.nav button{justify-content:center;padding:13px}.hero-grid,.lower-grid{grid-template-columns:1fr}.metrics{grid-template-columns:repeat(2,1fr)}.study-grid{grid-template-columns:repeat(2,1fr)}.random-layout{grid-template-columns:1fr}.analysis-grid{grid-template-columns:1fr}}
     @media(max-width:700px){.app{display:block}.sidebar{height:65px;position:fixed;bottom:0;top:auto;left:0;right:0;padding:7px 5px;display:block}.logo,.nav-label,.sidebar-foot{display:none}.nav{grid-template-columns:repeat(auto-fit,minmax(38px,1fr));gap:2px}.nav button{padding:7px 3px}.nav .ico{font-size:17px}.main{padding-bottom:65px}.topbar{height:64px;padding:0 17px}.crumb{font-size:16px}.search,.top-icon{display:none}.mobile-menu{display:block;border:0;background:transparent}.content{padding:20px 16px 35px}.headline{align-items:start}.headline h1{font-size:25px}.headline p{font-size:13px}.headline .primary{white-space:nowrap;padding:10px}.welcome{padding:24px}.welcome h1{font-size:28px}.welcome-actions{flex-wrap:wrap}.metrics{grid-template-columns:1fr 1fr}.metric{padding:14px}.study-grid{grid-template-columns:1fr}.modal-grid,.test-options,.method-grid,.setup-grid{grid-template-columns:1fr}.setup-grid .wide{grid-column:auto}.stepper{padding:15px 10px}.step-label{display:none}.step:not(:last-child):after{left:34px;right:5px}.wizard-body{padding:20px 15px}.sample-line{grid-template-columns:38px 1fr 36px}.sample-line select{display:none}.review-grid{grid-template-columns:1fr}.analysis-grid{grid-template-columns:1fr}.disc-kpis{grid-template-columns:1fr 1fr}.phone{width:calc(100% - 24px);margin:8px auto;border-width:6px}.toolbar .primary{margin-left:0}.random-layout{display:block}.result-card{margin-top:14px}.hero-grid{display:block}.live-card{margin-top:15px}.wizard-footer{padding:14px 15px}.wizard-footer small{display:none}}
-  </style>
+   .admin-bulk-toolbar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:0 0 16px;flex-wrap:wrap}
+    .admin-bulk-toolbar button{padding:10px 16px;border:0;border-radius:10px;background:#fff0ee;color:#b42318;font-weight:700;cursor:pointer}
+    .admin-bulk-toolbar button:disabled{opacity:.45;cursor:not-allowed}
+    #adminContent input[type="checkbox"]{width:18px;height:18px;accent-color:#145c52;cursor:pointer}
+    #adminBulkResult{overflow-wrap:anywhere}
+    </style>
   <style>
     .auth-gate{position:fixed;inset:0;z-index:100;background:linear-gradient(135deg,#0b302d,#175d56);display:grid;place-items:center;padding:24px}.auth-gate.hidden{display:none}.auth-shell{width:min(980px,100%);display:grid;grid-template-columns:1.05fr .95fr;background:white;border-radius:30px;overflow:hidden;box-shadow:0 35px 100px rgba(0,0,0,.3)}.auth-brand{padding:54px;background:linear-gradient(150deg,#123c3a,#17655d);color:white;position:relative;overflow:hidden}.auth-brand:after{content:'';position:absolute;width:280px;height:280px;border:50px solid rgba(204,232,116,.13);border-radius:50%;right:-100px;bottom:-100px}.auth-brand .logo-mark{margin-bottom:28px}.auth-brand h1{font-size:42px;line-height:1.05;max-width:420px}.auth-brand p{color:#c4dbd6;line-height:1.7;max-width:440px}.auth-features{display:grid;gap:13px;margin-top:32px}.auth-features span{font-size:13px;color:#e7f4f0}.auth-panel{padding:44px}.auth-tabs{display:grid;grid-template-columns:1fr 1fr;background:#edf2ef;padding:5px;border-radius:13px;margin:24px 0}.auth-tabs button{border:0;background:transparent;padding:10px;border-radius:9px;font-weight:800;color:var(--muted)}.auth-tabs button.active{background:white;color:var(--brand);box-shadow:0 3px 13px rgba(0,0,0,.08)}.auth-pane{display:none}.auth-pane.active{display:block}.auth-panel .input{margin-top:7px}.auth-panel .form-group{margin:14px 0}.auth-actions{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:22px}.auth-actions .primary,.auth-actions .ghost{width:100%}.auth-message{min-height:22px;margin-top:14px;font-size:12px;color:var(--muted);line-height:1.5}.auth-message.error{color:#b9473a}.auth-message.success{color:var(--brand)}.connection-pill{display:inline-flex;align-items:center;gap:7px;background:#e3f5ed;color:#17614f;border-radius:999px;padding:7px 10px;font-size:11px;font-weight:800}.connection-pill:before{content:'';width:8px;height:8px;border-radius:50%;background:#21a874}.logout-button{margin-left:auto;border:0;background:rgba(255,255,255,.1);color:#cfe2de;border-radius:9px;padding:7px 9px;font-size:11px}.empty-state{grid-column:1/-1;text-align:center;padding:60px 24px;background:white;border:1px dashed #b9cec7;border-radius:22px}.empty-state h3{margin-bottom:8px}.study-code{display:inline-flex;gap:6px;align-items:center;background:#edf3f0;color:#31534c;padding:6px 9px;border-radius:8px;font:700 11px ui-monospace,monospace;margin-top:8px}.panelist-app{position:fixed;inset:0;z-index:110;background:#eef3f0;overflow:auto;display:none}.panelist-app.open{display:block}.panelist-top{height:68px;background:#103a36;color:white;display:flex;align-items:center;justify-content:space-between;padding:0 28px;position:sticky;top:0;z-index:2}.panelist-top button{border:1px solid rgba(255,255,255,.25);background:transparent;color:white;border-radius:10px;padding:8px 11px}.panelist-shell{width:min(720px,calc(100% - 28px));margin:28px auto 60px}.panelist-hero{background:white;border-radius:24px;padding:24px;box-shadow:var(--shadow);margin-bottom:16px}.panelist-progress{height:8px;background:#e1eae6;border-radius:99px;overflow:hidden;margin-top:16px}.panelist-progress i{display:block;height:100%;background:var(--brand);transition:.3s}.panelist-form{display:grid;gap:14px}.panelist-question{background:white;border:1px solid var(--line);border-radius:19px;padding:20px}.panelist-question h3{font-size:16px;margin-bottom:5px}.panelist-question p{font-size:11px;color:var(--muted);margin:0 0 18px}.number-buttons{display:grid;grid-template-columns:repeat(9,1fr);gap:7px}.number-buttons button{border:1px solid var(--line);background:#f7faf8;border-radius:10px;padding:10px 4px;font-weight:800}.number-buttons button.active{background:var(--brand);border-color:var(--brand);color:white}.panelist-footer{display:flex;gap:10px;justify-content:flex-end;margin-top:16px}.panelist-complete{text-align:center;background:white;border-radius:24px;padding:55px 25px}.panelist-complete .checkmark{margin:0 auto 18px}.sync-banner{position:fixed;right:22px;bottom:22px;z-index:90;background:#173f3b;color:white;padding:11px 14px;border-radius:12px;font-size:12px;box-shadow:0 12px 32px rgba(0,0,0,.22);display:none}.sync-banner.show{display:block}.db-loading{opacity:.6;pointer-events:none}
     @media(max-width:760px){.auth-shell{grid-template-columns:1fr}.auth-brand{display:none}.auth-panel{padding:28px}.number-buttons{grid-template-columns:repeat(5,1fr)}}
@@ -580,7 +585,9 @@
     $('refreshMonitor').onclick=()=>loadMonitor($('monitorStudySelect').value);
     $('exportReport').onclick=()=>{if(!activeResultBundle)return toast('Pilih studi terlebih dahulu.');const bundle=activeResultBundle,responses=SensometrixCore.filterCompleteResponses(bundle.responses,bundle.sessions,bundle.study,bundle.samples.length),sessionMap=byId(bundle.sessions),sampleMap=byId(bundle.samples),attributeMap=byId(bundle.attributes),quote=csvCell,csv=['Panelis,Replikasi,Sampel,Atribut,Nilai,Waktu',...responses.map(response=>[sessionMap.get(response.session_id)?.participant_code,response.replicate_number||1,sampleMap.get(response.sample_id)?.name,attributeMap.get(response.attribute_id)?.name,response.value_text??response.value_num,response.created_at].map(quote).join(','))].join('\n'),link=document.createElement('a');link.href=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'}));link.download=`${bundle.study.name.replace(/[^a-z0-9]+/gi,'_')}_hasil.csv`;link.click();URL.revokeObjectURL(link.href);toast('Hasil lengkap berhasil diekspor.')};
 
+    let adminBulkBusy=false;
     async function loadAdminDashboard(){
+      if(adminBulkBusy)return;
       if(currentProfile?.role!=='admin'){$('adminContent').innerHTML='<div class="empty-results"><h3>Akses ditolak</h3><p>Menu ini hanya tersedia untuk administrator.</p></div>';return}
       syncing(true,'Memuat seluruh data studi…');
       try{
@@ -591,16 +598,16 @@
         ]),failure=[studiesResult,profilesResult,auditResult].find(result=>result.error);
         if(failure)throw failure.error;
         const studies=studiesResult.data||[],profiles=byId(profilesResult.data||[]),audits=auditResult.data||[],responseTotal=studies.reduce((sum,study)=>sum+(study.responses?.[0]?.count||0),0),researchers=new Set(studies.map(study=>study.owner_id)).size,active=studies.filter(study=>study.status==='Berlangsung').length;
-        const rows=studies.map(study=>{const owner=profiles.get(study.owner_id),panelists=study.panelist_sessions?.[0]?.count||0,responses=study.responses?.[0]?.count||0,statusClass=study.status==='Berlangsung'?'live':study.status==='Selesai'?'done':'draft';return `<tr><td><b>${safe(study.name)}</b><span class="admin-owner">${safe(owner?.full_name||study.owner_id)}</span></td><td>${safe(study.method)}</td><td><span class="status ${statusClass}">${safe(study.status)}</span></td><td>${panelists}</td><td>${responses}</td><td>${dateTime(study.created_at)}</td><td><div class="admin-table-actions"><button class="admin-reset" data-admin-action="reset" data-study-id="${study.id}" data-study-name="${safe(study.name)}">Reset respons</button><button class="admin-delete" data-admin-action="delete" data-study-id="${study.id}" data-study-name="${safe(study.name)}">Hapus studi</button></div></td></tr>`}).join('');
+        const rows=studies.map(study=>{const owner=profiles.get(study.owner_id),panelists=study.panelist_sessions?.[0]?.count||0,responses=study.responses?.[0]?.count||0,statusClass=study.status==='Berlangsung'?'live':study.status==='Selesai'?'done':'draft';return `<tr><td><input type="checkbox" class="admin-study-check" data-study-id="${study.id}" data-study-name="${safe(study.name)}" aria-label="Pilih ${safe(study.name)}"></td><td><b>${safe(study.name)}</b><span class="admin-owner">${safe(owner?.full_name||study.owner_id)}</span></td><td>${safe(study.method)}</td><td><span class="status ${statusClass}">${safe(study.status)}</span></td><td>${panelists}</td><td>${responses}</td><td>${dateTime(study.created_at)}</td><td><div class="admin-table-actions"><button class="admin-reset" data-admin-action="reset" data-study-id="${study.id}" data-study-name="${safe(study.name)}">Reset respons</button><button class="admin-delete" data-admin-action="delete" data-study-id="${study.id}" data-study-name="${safe(study.name)}">Hapus studi</button></div></td></tr>`}).join('');
         const auditRows=audits.map(item=>`<div class="audit-row"><div><b>${safe(item.action)}</b> · ${safe(item.study_name)}<span class="admin-owner">Actor: ${safe(item.actor_id)}</span></div><span>${dateTime(item.created_at)}</span></div>`).join('')||'<div class="empty-results"><p>Belum ada tindakan admin.</p></div>';
-        $('adminContent').innerHTML=`<div class="result-kpis"><div class="result-kpi"><b>${studies.length}</b><span>Total studi</span></div><div class="result-kpi"><b>${active}</b><span>Studi berlangsung</span></div><div class="result-kpi"><b>${researchers}</b><span>Pemilik studi</span></div><div class="result-kpi"><b>${responseTotal}</b><span>Total respons</span></div></div><section class="result-section"><div class="panel-head"><div><h3>Seluruh studi</h3><p class="chart-sub">Data lintas peneliti yang dapat dikelola administrator.</p></div><span class="status done">${studies.length} studi</span></div><div class="table-wrap"><table><thead><tr><th>Studi & pemilik</th><th>Metode</th><th>Status</th><th>Panelis</th><th>Respons</th><th>Dibuat</th><th>Tindakan</th></tr></thead><tbody>${rows||'<tr><td colspan="7">Belum ada studi.</td></tr>'}</tbody></table></div></section><section class="result-section"><div class="panel-head"><h3>Audit tindakan administrator</h3><span class="status draft">20 terbaru</span></div><div class="audit-list">${auditRows}</div></section>`;
+        $('adminContent').innerHTML=`<div class="result-kpis"><div class="result-kpi"><b>${studies.length}</b><span>Total studi</span></div><div class="result-kpi"><b>${active}</b><span>Studi berlangsung</span></div><div class="result-kpi"><b>${researchers}</b><span>Pemilik studi</span></div><div class="result-kpi"><b>${responseTotal}</b><span>Total respons</span></div></div><section class="result-section"><div class="panel-head"><div><h3>Seluruh studi</h3><p class="chart-sub">Data lintas peneliti yang dapat dikelola administrator.</p></div><span class="status done">${studies.length} studi</span></div><div class="admin-bulk-toolbar"><span id="adminSelectedCount" aria-live="polite">0 studi dipilih</span><button class="admin-delete" id="adminBulkDelete" disabled>Hapus terpilih</button></div><div id="adminBulkResult" role="status" aria-live="polite"></div><div class="table-wrap"><table><thead><tr><th><input type="checkbox" id="adminSelectAll" aria-label="Pilih semua studi" ${studies.length?'':'disabled'}></th><th>Studi & pemilik</th><th>Metode</th><th>Status</th><th>Panelis</th><th>Respons</th><th>Dibuat</th><th>Tindakan</th></tr></thead><tbody>${rows||'<tr><td colspan="8">Belum ada studi.</td></tr>'}</tbody></table></div></section><section class="result-section"><div class="panel-head"><h3>Audit tindakan administrator</h3><span class="status draft">20 terbaru</span></div><div class="audit-list">${auditRows}</div></section>`;
       }catch(error){$('adminContent').innerHTML=`<div class="empty-results"><h3>Data admin tidak dapat dimuat</h3><p>${safe(error.message)}</p></div>`}finally{syncing(false)}
     }
 
     $('adminNavButton').onclick=()=>setTimeout(loadAdminDashboard,0);
     $('refreshAdmin').onclick=loadAdminDashboard;
     $('adminContent').addEventListener('click',async event=>{
-      const button=event.target.closest('[data-admin-action]');if(!button||currentProfile?.role!=='admin')return;
+      const button=event.target.closest('[data-admin-action]');if(!button||adminBulkBusy||currentProfile?.role!=='admin')return;
       const studyId=button.dataset.studyId,studyName=button.dataset.studyName,action=button.dataset.adminAction;
       const typedName=prompt(`Ketik nama studi persis untuk mengonfirmasi:\n${studyName}`);
       if(typedName===null)return;
@@ -613,6 +620,59 @@
       if(error)return toast('Tindakan gagal: '+error.message);
       toast(action==='delete'?'Studi dan seluruh datanya dihapus.':'Respons dihapus dan sesi panelis direset.');
       await Promise.all([loadAdminDashboard(),loadStudies()]);
+    });
+
+
+    function updateAdminSelection(){
+      const checks=[...document.querySelectorAll('#adminContent .admin-study-check')];
+      const count=checks.filter(check=>check.checked).length;
+      const all=$('adminSelectAll');
+      if(all){all.checked=checks.length>0&&count===checks.length;all.indeterminate=count>0&&count<checks.length;}
+      if($('adminSelectedCount'))$('adminSelectedCount').textContent=count+' studi dipilih';
+      if($('adminBulkDelete'))$('adminBulkDelete').disabled=adminBulkBusy||count===0;
+    }
+    $('adminContent').addEventListener('change',event=>{
+      if(adminBulkBusy)return;
+      if(event.target.id==='adminSelectAll'){
+        document.querySelectorAll('#adminContent .admin-study-check').forEach(check=>check.checked=event.target.checked);
+      }
+      if(event.target.id==='adminSelectAll'||event.target.matches('.admin-study-check'))updateAdminSelection();
+    });
+    $('adminContent').addEventListener('click',async event=>{
+      if(!event.target.closest('#adminBulkDelete')||adminBulkBusy||currentProfile?.role!=='admin')return;
+      const selected=[...document.querySelectorAll('#adminContent .admin-study-check:checked')]
+        .map(check=>({id:check.dataset.studyId,name:check.dataset.studyName}));
+      if(!selected.length)return;
+      const phrase='HAPUS '+selected.length;
+      const list=selected.map((study,index)=>(index+1)+'. '+study.name+' ['+study.id.slice(0,8)+']').join('\n');
+      if(prompt('Hapus permanen '+selected.length+' studi berikut beserta desain, sesi, dan seluruh respons?\n\n'+list+'\n\nKetik '+phrase+' untuk melanjutkan.')!==phrase)return;
+      adminBulkBusy=true;
+      document.querySelectorAll('#adminContent button,#adminContent input[type="checkbox"]').forEach(el=>el.disabled=true);
+      $('refreshAdmin').disabled=true;
+      const results=[];
+      try{
+        for(const study of selected){
+          $('adminSelectedCount').textContent='Menghapus '+(results.length+1)+' / '+selected.length+'…';
+          try{
+            const {error}=await db.rpc('admin_delete_study',{p_study_id:study.id,p_expected_name:study.name});
+            results.push({...study,error:error?error.message:null});
+          }catch(error){
+            results.push({...study,error:'Status belum dapat dipastikan: '+(error.message||'Koneksi terputus')+'. Perbarui daftar sebelum mencoba lagi.'});
+            break;
+          }
+        }
+      }finally{
+        adminBulkBusy=false;
+        $('refreshAdmin').disabled=false;
+        await Promise.all([loadAdminDashboard(),loadStudies()]);
+        const success=results.filter(item=>!item.error).length;
+        const failed=results.filter(item=>item.error);
+        const skipped=selected.length-results.length;
+        const summary=success+' studi berhasil dihapus; '+failed.length+' gagal atau belum terkonfirmasi'+(skipped?'; '+skipped+' belum diproses':'')+'.';
+        const result=$('adminBulkResult');
+        if(result)result.innerHTML='<p>'+safe(summary)+'</p>'+failed.map(item=>'<p>'+safe(item.name)+' ['+safe(item.id.slice(0,8))+']: '+safe(item.error)+'</p>').join('');
+        toast(summary);
+      }
     });
 
     async function resumePanelist(){const {data,error}=await db.from('panelist_sessions').select('*').eq('auth_user_id',currentUser.id).is('completed_at',null).order('created_at',{ascending:false}).limit(1).maybeSingle();if(error||!data){authGate.classList.remove('hidden');return}await startPanelist(data.id,currentUser)}
