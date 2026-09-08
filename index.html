@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#123c3a" />
-  <title>Sensometric — Sensory Evaluation Platform</title>
+  <title>SensaLab — Workspace Studi Sensori</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap');
     :root{
@@ -50,7 +50,42 @@
     .admin-bulk-toolbar button:disabled{opacity:.45;cursor:not-allowed}
     #adminContent input[type="checkbox"]{width:18px;height:18px;accent-color:#145c52;cursor:pointer}
     #adminBulkResult{overflow-wrap:anywhere}
-    </style>
+    
+    :root{--paper:#f2f5fa;--ink:#152c3b;--muted:#617482;--line:#dde5ed;--brand:#087d79;--brand2:#075d5a;--mint:#dff5ee;--shadow:0 12px 36px rgba(24,45,66,.07)}
+    body{line-height:1.5}.sidebar{background:linear-gradient(180deg,#102d39,#103c42);padding-top:30px}
+    .nav button{padding:14px 13px}.nav button.active{background:#ccefda;box-shadow:inset 3px 0 #7bc9aa;color:#103d39}
+    .topbar{background:rgba(255,255,255,.94);height:76px}.content{padding-top:36px}
+    .headline h1{font-size:clamp(26px,3vw,36px);letter-spacing:-.04em}.headline p{font-size:15px}
+    .eyebrow{font-size:12px}.study-card,.result-section,.panel,.live-card{border:1px solid var(--line);box-shadow:0 5px 22px rgba(23,45,65,.04)}
+    .study-card{border-radius:20px;overflow:hidden;position:relative;transition:box-shadow .2s,transform .2s}
+    .study-card:hover{transform:translateY(-3px);box-shadow:0 14px 30px rgba(23,45,65,.10)}
+    .study-card[data-status="Berlangsung"]{border-top:4px solid #087d79}
+    .study-card[data-status="Draft"]{border-top:4px solid #d7a344}
+    .study-card[data-status="Selesai"]{border-top:4px solid #6687cb}
+    .study-card h3{font-size:20px;line-height:1.35}.study-card p,.study-meta{font-size:14px!important}
+    .study-code{display:inline-block;background:#f0f5f8;border:1px solid var(--line);padding:5px 10px;border-radius:7px;font-size:13px}
+    .card-actions{gap:8px;flex-wrap:wrap}.card-actions button{font-size:14px;padding:10px 13px;border-radius:9px}
+    .study-stats{padding:16px 0;border-top:1px solid var(--line);margin-top:16px}
+    .study-stats span,.result-kpi span,.monitor-kpis span{font-size:14px}
+    .status,.type-pill,.admin-owner{font-size:12px}.toolbar{padding:14px;background:white;border:1px solid var(--line);border-radius:16px}
+    .segmented button{font-size:14px}.result-kpi{background:white;border:1px solid var(--line);border-radius:18px;box-shadow:0 4px 18px rgba(23,45,65,.035)}
+    .admin-banner{background:linear-gradient(110deg,#143747,#176d71)}
+    .admin-table-actions button{font-size:13px}.table-wrap th{font-size:12px;letter-spacing:.04em}
+    .table-wrap td{font-size:14px;padding-top:17px;padding-bottom:17px}.table-wrap tbody tr:hover{background:#f6fafb}
+    .admin-bulk-toolbar{padding:12px 16px;background:#f3f7fa;border-radius:12px}
+    .input,.select{font-size:14px}.nav-label,.logo small{font-size:12px}
+    #readinessDialog{width:min(640px,calc(100% - 28px));max-height:90vh;overflow:auto;border:1px solid var(--line);border-radius:24px;padding:28px;color:var(--ink);box-shadow:0 30px 90px #102d3933}
+    #readinessDialog::backdrop{background:#102d3977;backdrop-filter:blur(5px)}
+    #readinessTitle{font-size:24px;margin-top:8px;padding-right:28px}
+    .readiness-row{display:grid;grid-template-columns:32px 1fr auto;gap:12px;align-items:center;padding:14px 0;border-bottom:1px solid var(--line);font-size:14px}
+    .readiness-row p{margin:3px 0;color:var(--muted);font-size:13px}.readiness-row>span:last-child{font-size:12px}
+    .readiness-icon{width:30px;height:30px;border-radius:10px;display:grid;place-items:center;font-weight:800}
+    .passed{background:#dff5ee;color:#087d79}.pending{background:#fff0d7;color:#8d5d0d}
+    #readinessMessage{font-size:14px;color:var(--muted)}button:disabled{cursor:not-allowed;opacity:.55}
+    @media(max-width:700px){.content{padding:22px 16px}.toolbar>.segmented{width:100%;overflow:auto}.headline{align-items:start}.readiness-row{grid-template-columns:30px 1fr}.readiness-row>span:last-child{grid-column:2}.table-wrap{overflow-x:auto}}
+    @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+
+</style>
   <style>
     .auth-gate{position:fixed;inset:0;z-index:100;background:linear-gradient(135deg,#0b302d,#175d56);display:grid;place-items:center;padding:24px}.auth-gate.hidden{display:none}.auth-shell{width:min(980px,100%);display:grid;grid-template-columns:1.05fr .95fr;background:white;border-radius:30px;overflow:hidden;box-shadow:0 35px 100px rgba(0,0,0,.3)}.auth-brand{padding:54px;background:linear-gradient(150deg,#123c3a,#17655d);color:white;position:relative;overflow:hidden}.auth-brand:after{content:'';position:absolute;width:280px;height:280px;border:50px solid rgba(204,232,116,.13);border-radius:50%;right:-100px;bottom:-100px}.auth-brand .logo-mark{margin-bottom:28px}.auth-brand h1{font-size:42px;line-height:1.05;max-width:420px}.auth-brand p{color:#c4dbd6;line-height:1.7;max-width:440px}.auth-features{display:grid;gap:13px;margin-top:32px}.auth-features span{font-size:13px;color:#e7f4f0}.auth-panel{padding:44px}.auth-tabs{display:grid;grid-template-columns:1fr 1fr;background:#edf2ef;padding:5px;border-radius:13px;margin:24px 0}.auth-tabs button{border:0;background:transparent;padding:10px;border-radius:9px;font-weight:800;color:var(--muted)}.auth-tabs button.active{background:white;color:var(--brand);box-shadow:0 3px 13px rgba(0,0,0,.08)}.auth-pane{display:none}.auth-pane.active{display:block}.auth-panel .input{margin-top:7px}.auth-panel .form-group{margin:14px 0}.auth-actions{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:22px}.auth-actions .primary,.auth-actions .ghost{width:100%}.auth-message{min-height:22px;margin-top:14px;font-size:12px;color:var(--muted);line-height:1.5}.auth-message.error{color:#b9473a}.auth-message.success{color:var(--brand)}.connection-pill{display:inline-flex;align-items:center;gap:7px;background:#e3f5ed;color:#17614f;border-radius:999px;padding:7px 10px;font-size:11px;font-weight:800}.connection-pill:before{content:'';width:8px;height:8px;border-radius:50%;background:#21a874}.logout-button{margin-left:auto;border:0;background:rgba(255,255,255,.1);color:#cfe2de;border-radius:9px;padding:7px 9px;font-size:11px}.empty-state{grid-column:1/-1;text-align:center;padding:60px 24px;background:white;border:1px dashed #b9cec7;border-radius:22px}.empty-state h3{margin-bottom:8px}.study-code{display:inline-flex;gap:6px;align-items:center;background:#edf3f0;color:#31534c;padding:6px 9px;border-radius:8px;font:700 11px ui-monospace,monospace;margin-top:8px}.panelist-app{position:fixed;inset:0;z-index:110;background:#eef3f0;overflow:auto;display:none}.panelist-app.open{display:block}.panelist-top{height:68px;background:#103a36;color:white;display:flex;align-items:center;justify-content:space-between;padding:0 28px;position:sticky;top:0;z-index:2}.panelist-top button{border:1px solid rgba(255,255,255,.25);background:transparent;color:white;border-radius:10px;padding:8px 11px}.panelist-shell{width:min(720px,calc(100% - 28px));margin:28px auto 60px}.panelist-hero{background:white;border-radius:24px;padding:24px;box-shadow:var(--shadow);margin-bottom:16px}.panelist-progress{height:8px;background:#e1eae6;border-radius:99px;overflow:hidden;margin-top:16px}.panelist-progress i{display:block;height:100%;background:var(--brand);transition:.3s}.panelist-form{display:grid;gap:14px}.panelist-question{background:white;border:1px solid var(--line);border-radius:19px;padding:20px}.panelist-question h3{font-size:16px;margin-bottom:5px}.panelist-question p{font-size:11px;color:var(--muted);margin:0 0 18px}.number-buttons{display:grid;grid-template-columns:repeat(9,1fr);gap:7px}.number-buttons button{border:1px solid var(--line);background:#f7faf8;border-radius:10px;padding:10px 4px;font-weight:800}.number-buttons button.active{background:var(--brand);border-color:var(--brand);color:white}.panelist-footer{display:flex;gap:10px;justify-content:flex-end;margin-top:16px}.panelist-complete{text-align:center;background:white;border-radius:24px;padding:55px 25px}.panelist-complete .checkmark{margin:0 auto 18px}.sync-banner{position:fixed;right:22px;bottom:22px;z-index:90;background:#173f3b;color:white;padding:11px 14px;border-radius:12px;font-size:12px;box-shadow:0 12px 32px rgba(0,0,0,.22);display:none}.sync-banner.show{display:block}.db-loading{opacity:.6;pointer-events:none}
     @media(max-width:760px){.auth-shell{grid-template-columns:1fr}.auth-brand{display:none}.auth-panel{padding:28px}.number-buttons{grid-template-columns:repeat(5,1fr)}}
@@ -79,7 +114,7 @@
       <nav class="nav" aria-label="Navigasi utama">
         <button class="active" data-view="overview"><span class="ico">⌂</span><span>Ringkasan</span></button>
         <button data-view="create"><span class="ico">＋</span><span>Create Baru</span></button>
-        <button data-view="studies"><span class="ico">▣</span><span>Studi Saya</span><b class="badge">4</b></button>
+        <button data-view="studies"><span class="ico">▣</span><span>Studi Saya</span><b class="badge" id="studyCountBadge">0</b></button>
         <button data-view="random"><span class="ico">⌘</span><span>Randomisasi</span></button>
         <button data-view="questions"><span class="ico">☷</span><span>Pustaka Pertanyaan</span><b class="badge">48</b></button>
         <button data-view="analytics"><span class="ico">◒</span><span>Hasil & Analitik</span></button>
@@ -136,7 +171,7 @@
                 <button class="method-card" data-method="TRIANGLE"><span class="method-icon">△</span><h3>Uji Diskriminasi</h3><p>Temukan apakah dua formula dapat dibedakan secara sensori oleh panelis.</p><small>Triangle · Binomial exact</small></button>
               </div></div>
               <div class="wizard-pane" data-pane="2"><div class="wizard-intro"><h2>Informasi studi</h2><p>Beri identitas yang jelas agar mudah ditemukan dan dikelola tim.</p></div><div class="setup-grid">
-                <div class="form-group wide"><label>Nama studi *</label><input class="input" id="wizardName" value="Consumer Test — Produk Baru"></div>
+                <div class="form-group wide"><label>Nama studi *</label><input class="input" id="wizardName" placeholder="Contoh: Uji Kesukaan Minuman Oat — September"></div>
                 <div class="form-group"><label>Lokasi pengujian</label><input class="input" id="wizardLocation" value="Ruang Sensori A"></div>
                 <div class="form-group"><label>Target panelis *</label><input class="input" id="wizardPanelists" type="number" min="6" value="50"></div>
                 <div class="form-group"><label>Jumlah replikasi *</label><input class="input" id="wizardReplications" type="number" min="1" max="5" value="1"><small>Tetap untuk seluruh panelis dalam studi ini.</small></div>
@@ -157,7 +192,7 @@
 
         <section class="view" id="studies">
           <div class="headline"><div><div class="eyebrow">Study workspace</div><h1>Studi Saya</h1><p>Siapkan, jalankan, dan pantau seluruh pengujian sensori dari satu tempat.</p></div><button class="primary" data-view="create">＋ Studi baru</button></div>
-          <div class="toolbar"><div class="segmented" id="studyFilter"><button class="active" data-filter="all">Semua</button><button data-filter="Berlangsung">Berlangsung</button><button data-filter="Draft">Draft</button><button data-filter="Selesai">Selesai</button></div><select class="select"><option>Terbaru</option><option>Nama A–Z</option></select></div>
+          <div class="toolbar"><div class="segmented" id="studyFilter"><button class="active" data-filter="all">Semua</button><button data-filter="Berlangsung">Berlangsung</button><button data-filter="Draft">Draft</button><button data-filter="Selesai">Selesai</button></div><input class="input" id="studySearch" aria-label="Cari studi" placeholder="Cari nama atau kode studi…" style="flex:1;min-width:180px"><select class="select" id="studySort" aria-label="Urutkan studi"><option value="newest">Terbaru</option><option value="name">Nama A–Z</option></select></div>
           <div class="study-grid" id="studyGrid">
             <article class="study-card" data-status="Berlangsung"><div class="study-card-top"><span class="type-pill">CLT</span><span class="status live">Berlangsung</span></div><h3>Consumer Test — Minuman Oat</h3><p>Mengukur overall liking dan JAR untuk 3 formula minuman oat.</p><div class="study-stats"><div><b>36 / 50</b><span>Panelis</span></div><div><b>72%</b><span>Respons</span></div></div><div class="card-actions"><button data-view="analytics">Buka hasil</button><button data-action="panelist">Panelis</button></div></article>
             <article class="study-card" data-status="Selesai"><div class="study-card-top"><span class="type-pill">QDA</span><span class="status done">Selesai</span></div><h3>Profil Aroma Kopi Arabika</h3><p>Profil intensitas 12 atribut untuk tiga origin kopi lokal.</p><div class="study-stats"><div><b>10 / 10</b><span>Panelis</span></div><div><b>3</b><span>Replikasi</span></div></div><div class="card-actions"><button data-view="analytics">Buka hasil</button><button>Ekspor</button></div></article>
@@ -213,6 +248,7 @@
   <div class="panelist-app" id="panelistApp"><div class="panelist-top"><b id="panelistStudyName">Sesi penilaian</b><button id="panelistSignOut">Keluar</button></div><main class="panelist-shell"><section class="panelist-hero"><div class="eyebrow" id="panelistMethod">SENSORY EVALUATION</div><h2 id="panelistSampleTitle" style="margin-top:7px">Menyiapkan sampel…</h2><p id="panelistInstruction" style="color:var(--muted);margin-bottom:0">Mohon tunggu.</p><div class="panelist-progress"><i id="panelistProgressBar" style="width:0"></i></div></section><div class="panelist-form" id="panelistQuestions"></div><div class="panelist-footer"><button class="primary" id="savePanelistResponse">Simpan & lanjutkan →</button></div></main></div>
   <div class="sync-banner" id="syncBanner">Menyinkronkan data…</div>
   <div class="toast" id="toast">Perubahan tersimpan.</div>
+<dialog id="readinessDialog" aria-labelledby="readinessTitle"><form method="dialog"><button class="close" aria-label="Tutup" style="float:right">×</button></form><div class="eyebrow">Sebelum pengumpulan data</div><h2 id="readinessTitle"></h2><p>Checklist kesiapan studi</p><div id="readinessList"></div><p id="readinessMessage" role="status"></p><div class="modal-actions"><button class="ghost" id="readinessDesign">Buka desain</button><button class="primary" id="readinessActivate">Aktifkan studi</button></div></dialog>
   <script>
     const titles={overview:'Ringkasan',create:'Create Baru',studies:'Studi Saya',random:'Randomisasi',questions:'Pustaka Pertanyaan',analytics:'Hasil & Analitik',monitor:'Monitor Panelis',admin:'Manajemen Data'};
     const showView=id=>{document.querySelectorAll('.view').forEach(v=>v.classList.toggle('active',v.id===id));document.querySelectorAll('.nav button[data-view]').forEach(b=>b.classList.toggle('active',b.dataset.view===id));document.getElementById('pageTitle').textContent=titles[id]||'SensaLab';window.scrollTo(0,0)};
@@ -423,17 +459,25 @@
 
     async function routeSession(session){if(joiningPanelist)return;currentUser=session?.user||null;if(!currentUser){authGate.classList.remove('hidden');$('panelistApp').classList.remove('open');return}if(isAnonymous(currentUser)){await resumePanelist();return}authGate.classList.add('hidden');$('panelistApp').classList.remove('open');await loadResearcher()}
     async function loadResearcher(){syncing(true,'Memuat workspace…');const {data:profile}=await db.from('profiles').select('*').eq('id',currentUser.id).maybeSingle();currentProfile=profile;const name=profile?.full_name||currentUser.user_metadata?.full_name||currentUser.email?.split('@')[0]||'Researcher',isAdmin=profile?.role==='admin';$('profileName').textContent=name+(isAdmin?' · Admin':'');$('profileEmail').textContent=currentUser.email||'Supabase account';$('profileAvatar').textContent=name.split(/\s+/).slice(0,2).map(x=>x[0]).join('').toUpperCase();$('adminNavButton').classList.toggle('visible',isAdmin);await loadStudies();syncing(false)}
-    function fillStudySelectors(){const options=['<option value="">Pilih studi</option>',...workspaceStudies.map(study=>`<option value="${study.id}">${safe(study.name)} · ${safe(study.method)}</option>`)].join('');$('analysisStudySelect').innerHTML=options;$('monitorStudySelect').innerHTML=options}
-    async function loadStudies(){const grid=$('studyGrid');grid.innerHTML='<div class="empty-state"><h3>Memuat studi…</h3></div>';let {data,error}=await db.from('studies').select('*,samples(count),panelist_sessions(count)').order('created_at',{ascending:false});if(error){grid.innerHTML=`<div class="empty-state"><h3>Database belum siap</h3><p>${safe(error.message)}</p><p>Database perlu diperiksa oleh administrator. Ikuti panduan deployment versi ini.</p></div>`;return}workspaceStudies=data||[];fillStudySelectors();if(!data?.length){grid.innerHTML='<div class="empty-state"><h3>Belum ada studi</h3><p>Buat studi pertama Anda. Data akan langsung tersimpan di Supabase.</p><button class="primary" data-view="create">＋ Buat studi</button></div>';return}grid.innerHTML=data.map(study=>{const statusClass=study.status==='Berlangsung'?'live':study.status==='Selesai'?'done':'draft';const sampleCount=study.samples?.[0]?.count||0,panelCount=study.panelist_sessions?.[0]?.count||0;return `<article class="study-card db-card" data-status="${safe(study.status)}" data-study-id="${study.id}"><div class="study-card-top"><span class="type-pill">${safe(study.method)}</span><span class="status ${statusClass}">${safe(study.status)}</span></div><h3>${safe(study.name)}</h3><p>${safe(study.purpose||'Studi sensori tersimpan di Supabase.')}</p><span class="study-code">Kode: ${safe(study.access_code)}</span><div class="study-stats"><div><b>${panelCount} / ${study.target_panelists}</b><span>Panelis</span></div><div><b>${study.replication_count||1}×</b><span>Replikasi</span></div></div><div class="card-actions">${study.status==='Draft'?`<button data-db-action="activate">Aktifkan</button>`:`<button data-db-action="results">Hasil</button><button data-db-action="monitor">Monitor</button>${study.status==='Berlangsung'?'<button data-db-action="finish">Finalkan</button>':''}`}<button data-db-action="design">Desain</button></div></article>`}).join('')}
+    function fillStudySelectors(){
+      for(const id of ['analysisStudySelect','monitorStudySelect']){
+        const el=$(id),previous=el.value;
+        const studies=workspaceStudies.filter(study=>id!=='monitorStudySelect'||study.status==='Berlangsung');
+        el.innerHTML='<option value="">'+(studies.length?'Pilih studi':'Belum ada studi'+(id==='monitorStudySelect'?' berlangsung':''))+'</option>'+studies.map(study=>'<option value="'+safe(study.id)+'">'+safe([study.name,study.method,study.status,study.access_code||study.id.slice(0,8)].join(' · '))+'</option>').join('');
+        if(studies.some(study=>study.id===previous))el.value=previous;
+      }
+      $('studyCountBadge').textContent=workspaceStudies.length;
+    }
+    async function loadStudies(){const grid=$('studyGrid');grid.innerHTML='<div class="empty-state"><h3>Memuat studi…</h3></div>';let {data,error}=await db.from('studies').select('*,samples(count),panelist_sessions(count)').order('created_at',{ascending:false});if(error){grid.innerHTML=`<div class="empty-state"><h3>Database belum siap</h3><p>${safe(error.message)}</p><p>Database perlu diperiksa oleh administrator. Ikuti panduan deployment versi ini.</p></div>`;return}workspaceStudies=data||[];fillStudySelectors();if(!data?.length){grid.innerHTML='<div class="empty-state"><h3>Belum ada studi</h3><p>Buat studi pertama Anda. Data akan langsung tersimpan di Supabase.</p><button class="primary" data-view="create">＋ Buat studi</button></div>';return}grid.innerHTML=data.map(study=>{const statusClass=study.status==='Berlangsung'?'live':study.status==='Selesai'?'done':'draft';const sampleCount=study.samples?.[0]?.count||0,panelCount=study.panelist_sessions?.[0]?.count||0;return `<article class="study-card db-card" data-status="${safe(study.status)}" data-study-id="${study.id}"><div class="study-card-top"><span class="type-pill">${safe(study.method)}</span><span class="status ${statusClass}">${safe(study.status)}</span></div><h3>${safe(study.name)}</h3><p>${safe(study.purpose||'Studi sensori tersimpan di Supabase.')}</p><span class="study-code">Kode: ${safe(study.access_code)}</span><p class="study-meta">${sampleCount} sampel · Dibuat ${dateTime(study.created_at)}</p><div class="study-stats"><div><b>${panelCount} / ${study.target_panelists}</b><span>Panelis</span></div><div><b>${study.replication_count||1}×</b><span>Replikasi</span></div></div><div class="card-actions">${study.status==='Draft'?`<button data-db-action="activate">Cek kesiapan →</button>`:`<button data-db-action="results">Hasil</button>${study.status==='Berlangsung'?'<button data-db-action="monitor">Monitor</button>':''}${study.status==='Berlangsung'?'<button data-db-action="finish">Finalkan</button>':''}`}<button data-db-action="design">Desain</button></div></article>`}).join('');applyStudyFilters()}
 
-    async function createStudyRecord({name,method,purpose='',location='',target=24,startDate=null,replications=1,sampleNames=[]}){syncing(true,'Menyimpan studi…');const replicationCount=Math.max(1,Math.min(5,+replications||1));const {data:study,error}=await db.from('studies').insert({owner_id:currentUser.id,name,method,purpose,location,target_panelists:+target||24,replication_count:replicationCount,start_date:startDate||null,status:'Draft',access_code:randomCode()}).select().single();if(error){syncing(false);throw error}const names=sampleNames.length?sampleNames:Array.from({length:method==='TRIANGLE'?2:3},(_,i)=>`Formula ${i+1}`);const sampleRows=names.map((sampleName,i)=>({study_id:study.id,code:String.fromCharCode(65+i),name:sampleName,sample_type:'Produk uji',position:i+1}));let result=await db.from('samples').insert(sampleRows);if(result.error){await db.from('studies').delete().eq('id',study.id);syncing(false);throw result.error}const extraAttributes=window.getQuestionnaireAttributes?.()||[];const combined=[...(templates[method]||[]),...extraAttributes].filter((item,index,array)=>array.findIndex(x=>x.name===item.name&&x.scale_type===item.scale_type)===index);const attrRows=combined.map((a,i)=>({...a,question_type:a.question_type||a.scale_type,scale_type:storedQuestionType(a.scale_type),config:a.config||{},study_id:study.id,position:i+1}));result=await db.from('attributes').insert(attrRows);if(result.error){await db.from('studies').delete().eq('id',study.id);syncing(false);throw result.error}syncing(false);return study}
+    async function createStudyRecordRaw({name,method,purpose='',location='',target=24,startDate=null,replications=1,sampleNames=[],requestId}){syncing(true,'Menyimpan studi…');const replicationCount=Math.max(1,Math.min(5,+replications||1));const {data:study,error}=await db.from('studies').insert({id:requestId,owner_id:currentUser.id,name,method,purpose,location,target_panelists:+target||24,replication_count:replicationCount,start_date:startDate||null,status:'Draft',access_code:randomCode()}).select().single();if(error){syncing(false);throw error}const names=sampleNames.length?sampleNames:Array.from({length:method==='TRIANGLE'?2:3},(_,i)=>`Formula ${i+1}`);const sampleRows=names.map((sampleName,i)=>({study_id:study.id,code:String.fromCharCode(65+i),name:sampleName,sample_type:'Produk uji',position:i+1}));let result=await db.from('samples').insert(sampleRows);if(result.error){await db.from('studies').delete().eq('id',study.id);syncing(false);throw result.error}const extraAttributes=window.getQuestionnaireAttributes?.()||[];const combined=[...(templates[method]||[]),...extraAttributes].filter((item,index,array)=>array.findIndex(x=>x.name===item.name&&x.scale_type===item.scale_type)===index);const attrRows=combined.map((a,i)=>({...a,question_type:a.question_type||a.scale_type,scale_type:storedQuestionType(a.scale_type),config:a.config||{},study_id:study.id,position:i+1}));result=await db.from('attributes').insert(attrRows);if(result.error){await db.from('studies').delete().eq('id',study.id);syncing(false);throw result.error}syncing(false);return study}
 
-    $('createStudy').onclick=async()=>{const button=$('createStudy'),name=$('newStudyName').value.trim()||'Studi Tanpa Nama',method=document.querySelector('.test-option.selected').dataset.type,count=Math.max(2,Math.min(8,+$('newSampleCount').value||3));setBusy(button,true,'Menyimpan…');try{await createStudyRecord({name,method,target:$('newPanelCount').value,replications:$('newReplicationCount').value,sampleNames:Array.from({length:method==='TRIANGLE'?2:count},(_,i)=>`Formula ${i+1}`)});$('studyModal').classList.remove('open');await loadStudies();showView('studies');toast('Studi tersimpan di Supabase.')}catch(error){toast('Gagal menyimpan: '+error.message)}finally{setBusy(button,false)}};
+    $('createStudy').onclick=async()=>{if(studyCreationBusy)return;const button=$('createStudy'),name=$('newStudyName').value.trim()||'Studi Tanpa Nama',method=document.querySelector('.test-option.selected').dataset.type,count=Math.max(2,Math.min(8,+$('newSampleCount').value||3));setBusy(button,true,'Menyimpan…');try{await createStudyRecord({name,method,target:$('newPanelCount').value,replications:$('newReplicationCount').value,sampleNames:Array.from({length:method==='TRIANGLE'?2:count},(_,i)=>`Formula ${i+1}`)});$('studyModal').classList.remove('open');await loadStudies();showView('studies');toast('Studi tersimpan di Supabase.')}catch(error){toast('Gagal menyimpan: '+error.message)}finally{setBusy(button,false)}};
 
     const originalWizardNext=$('wizardNext').onclick;
-    $('wizardNext').onclick=async()=>{if(wizardStep<4)return originalWizardNext();const button=$('wizardNext'),name=$('wizardName').value.trim();if(!name)return toast('Nama studi wajib diisi.');setBusy(button,true,'Menyimpan…');try{const sampleNames=[...document.querySelectorAll('#sampleEditorRows .sample-name')].map(x=>x.value.trim()).filter(Boolean);await createStudyRecord({name,method:wizardMethod,purpose:$('wizardPurpose').value.trim(),location:$('wizardLocation').value.trim(),target:$('wizardPanelists').value,replications:$('wizardReplications').value,startDate:$('wizardDate').value||null,sampleNames});wizardStep=1;updateWizard();await loadStudies();showView('studies');toast('Studi dan seluruh parameter tersimpan.')}catch(error){toast('Gagal menyimpan: '+error.message)}finally{setBusy(button,false)}};
+    $('wizardNext').onclick=async()=>{if(studyCreationBusy)return;if(wizardStep<4)return originalWizardNext();const button=$('wizardNext'),name=$('wizardName').value.trim();if(!name)return toast('Nama studi wajib diisi.');setBusy(button,true,'Menyimpan…');try{const sampleNames=[...document.querySelectorAll('#sampleEditorRows .sample-name')].map(x=>x.value.trim()).filter(Boolean);await createStudyRecord({name,method:wizardMethod,purpose:$('wizardPurpose').value.trim(),location:$('wizardLocation').value.trim(),target:$('wizardPanelists').value,replications:$('wizardReplications').value,startDate:$('wizardDate').value||null,sampleNames});wizardStep=1;updateWizard();await loadStudies();showView('studies');toast('Studi dan seluruh parameter tersimpan.')}catch(error){toast('Gagal menyimpan: '+error.message)}finally{setBusy(button,false)}};
 
-    document.addEventListener('click',async event=>{const card=event.target.closest('.db-card'),button=event.target.closest('[data-db-action]');if(!card||!button)return;const id=card.dataset.studyId,action=button.dataset.dbAction;if(action==='copy-code'){await navigator.clipboard.writeText(card.querySelector('.study-code').textContent.replace('Kode: ','').trim());toast('Kode studi disalin.')}if(action==='activate'){setBusy(button,true,'Mengaktifkan…');const {error}=await db.from('studies').update({status:'Berlangsung'}).eq('id',id);setBusy(button,false);if(error)return toast('Gagal: '+error.message);await loadStudies();toast('Studi aktif dan dapat diakses panelis.')}if(action==='finish'){setBusy(button,true,'Memfinalkan…');const {error}=await db.from('studies').update({status:'Selesai'}).eq('id',id);setBusy(button,false);if(error)return toast('Gagal: '+error.message);await loadStudies();toast('Studi selesai. Hasil sekarang berstatus final.')}if(action==='design')await openDesign(id);if(action==='results')await openResearcherView('analytics',id);if(action==='monitor')await openResearcherView('monitor',id)});
+    document.addEventListener('click',async event=>{const card=event.target.closest('.db-card'),button=event.target.closest('[data-db-action]');if(!card||!button)return;const id=card.dataset.studyId,action=button.dataset.dbAction;if(action==='copy-code'){await navigator.clipboard.writeText(card.querySelector('.study-code').textContent.replace('Kode: ','').trim());toast('Kode studi disalin.')}if(action==='activate'){await openReadiness(id,button);}if(action==='finish'){setBusy(button,true,'Memfinalkan…');const {error}=await db.from('studies').update({status:'Selesai'}).eq('id',id);setBusy(button,false);if(error)return toast('Gagal: '+error.message);await loadStudies();toast('Studi selesai. Hasil sekarang berstatus final.')}if(action==='design')await openDesign(id);if(action==='results')await openResearcherView('analytics',id);if(action==='monitor')await openResearcherView('monitor',id)});
 
     async function openDesign(id){const {data:study,error}=await db.from('studies').select('*').eq('id',id).single();if(error)return toast(error.message);const samplesResult=await db.from('samples').select('*').eq('study_id',id).order('position');activeStudy=study;activeSamples=samplesResult.data||[];$('randomType').value=study.method;$('sampleCount').value=activeSamples.length;$('panelCount').value=study.target_panelists;$('sampleChips').innerHTML=activeSamples.map(x=>`<span class="chip">${safe(x.code)} · ${safe(x.name)}</span>`).join('');showView('random');renderDesign()}
     function randomBlindCodes(count){const codes=new Set();while(codes.size<count){const x=crypto.getRandomValues(new Uint32Array(1))[0];if(x<4294966500)codes.add(String(100+x%900));}return [...codes];}
@@ -674,6 +718,99 @@
         toast(summary);
       }
     });
+
+
+    let studyCreationBusy=false;
+    const studyCreationAttempts=new Map();
+    async function createStudyRecord(params){
+      if(studyCreationBusy)throw new Error('Penyimpanan sedang berjalan. Tunggu hingga selesai.');
+      studyCreationBusy=true;
+      const key=JSON.stringify([currentUser.id,params]);
+      const prior=studyCreationAttempts.get(key);
+      const requestId=prior||crypto.randomUUID();
+      studyCreationAttempts.set(key,requestId);
+      try{
+        if(prior){
+          const {data,error}=await db.from('studies').select('id').eq('id',prior).maybeSingle();
+          if(error)throw error;
+          if(data)throw new Error('Studi dari percobaan sebelumnya sudah tersimpan. Buka Studi Saya dan periksa desainnya sebelum membuat ulang.');
+        }
+        const result=await createStudyRecordRaw({...params,requestId});
+        studyCreationAttempts.delete(key);
+        return result;
+      }finally{studyCreationBusy=false;syncing(false);}
+    }
+    function applyStudyFilters(){
+      const query=($('studySearch').value||'').toLocaleLowerCase();
+      const status=document.querySelector('#studyFilter .active')?.dataset.filter||'all';
+      const cards=[...document.querySelectorAll('#studyGrid .db-card')];
+      const order=new Map(workspaceStudies.map((study,i)=>[study.id,i]));
+      cards.sort((a,b)=>$('studySort').value==='name'?a.querySelector('h3').textContent.localeCompare(b.querySelector('h3').textContent,'id'):order.get(a.dataset.studyId)-order.get(b.dataset.studyId));
+      let visible=0;
+      for(const card of cards){
+        const match=(status==='all'||card.dataset.status===status)&&card.textContent.toLocaleLowerCase().includes(query);
+        card.hidden=!match;card.style.display=match?'':'none';
+        if(match)visible++;
+        $('studyGrid').append(card);
+      }
+      $('studyNoMatches')?.remove();
+      if(cards.length&&!visible)$('studyGrid').insertAdjacentHTML('beforeend','<div class="empty-state" id="studyNoMatches"><h3>Tidak ada studi yang cocok</h3><p>Ubah pencarian atau filter status.</p></div>');
+    }
+    $('studySearch').oninput=applyStudyFilters;
+    $('studySort').onchange=applyStudyFilters;
+    $('studyFilter').onclick=event=>{
+      const button=event.target.closest('[data-filter]');if(!button)return;
+      document.querySelectorAll('#studyFilter button').forEach(el=>el.classList.toggle('active',el===button));
+      applyStudyFilters();
+    };
+    $('globalSearch').oninput=event=>{$('studySearch').value=event.target.value;showView('studies');applyStudyFilters();};
+
+    function readinessChecks(study,samples,attributes,orders){
+      const triangle=study.method==='TRIANGLE',n=samples.length,reps=study.replication_count;
+      const size=triangle?3:n,total=size*reps,codes=new Set(samples.map(sample=>sample.code));
+      const validReps=Number.isInteger(reps)&&reps>=1&&reps<=5;
+      const sequenceOK=validReps&&n>=2&&orders.length>0&&orders.every(order=>{
+        if(!Array.isArray(order.sequence)||order.sequence.length!==total||!order.sequence.every(code=>typeof code==='string'&&codes.has(code)))return false;
+        for(let r=0;r<reps;r++)if(new Set(order.sequence.slice(r*size,(r+1)*size)).size!==(triangle?2:n))return false;
+        return true;
+      });
+      const blindOK=orders.length>0&&orders.every(order=>Array.isArray(order.blind_codes)&&order.blind_codes.length===total&&order.blind_codes.every(code=>typeof code==='string'&&/^[0-9]{3}$/.test(code))&&new Set(order.blind_codes).size===total);
+      const types=['line','numeric','text','choice','hedonic','jar','star','dropdown','multiple'];
+      return [
+        {label:'Metode studi',ok:['CLT','QDA','TRIANGLE'].includes(study.method),detail:study.method},
+        {label:'Sampel',ok:triangle?n===2:n>=2,detail:n+' sampel; '+(triangle?'triangle memerlukan tepat 2':'minimal 2')},
+        {label:'Kuesioner',ok:attributes.length>0&&(!triangle||attributes.length===1)&&attributes.every(a=>types.includes(a.question_type||a.scale_type)),detail:attributes.length+' pertanyaan'+(triangle?'; triangle memerlukan 1 pertanyaan':'')},
+        {label:'Replikasi',ok:validReps,detail:reps+' replikasi'},
+        {label:'Urutan penyajian',ok:sequenceOK,detail:orders.length+' urutan panelis; setiap replikasi harus lengkap'},
+        {label:'Blind code',ok:blindOK,detail:'Tiga digit dan unik untuk setiap penyajian per panelis'}
+      ];
+    }
+    async function openReadiness(id,button){
+      setBusy(button,true,'Memeriksa…');
+      try{
+        const results=await Promise.all([db.from('studies').select('*').eq('id',id).single(),allStudyRows('samples',id),allStudyRows('attributes',id),allStudyRows('serving_orders',id)]);
+        const failure=results.find(r=>r.error);if(failure)throw failure.error;
+        const study=results[0].data,checks=readinessChecks(study,...results.slice(1).map(r=>r.data||[]));
+        const ready=study.status==='Draft'&&checks.every(c=>c.ok);
+        const dialog=$('readinessDialog');
+        $('readinessTitle').textContent=study.name;
+        $('readinessList').innerHTML=checks.map(c=>'<div class="readiness-row"><span class="readiness-icon '+(c.ok?'passed':'pending')+'">'+(c.ok?'✓':'!')+'</span><div><b>'+safe(c.label)+'</b><p>'+safe(c.detail)+'</p></div><span>'+ (c.ok?'Siap':'Perlu dilengkapi')+'</span></div>').join('');
+        $('readinessMessage').textContent=ready?'Pemeriksaan awal lengkap. Aktivasi akan divalidasi kembali oleh server.':'Lengkapi bagian yang ditandai melalui Desain sebelum aktivasi.';
+        $('readinessActivate').disabled=!ready;
+        $('readinessDesign').onclick=()=>{dialog.close();openDesign(id);};
+        $('readinessActivate').onclick=async()=>{
+          const activate=$('readinessActivate');setBusy(activate,true,'Mengaktifkan…');
+          try{
+            const {error}=await db.from('studies').update({status:'Berlangsung'}).eq('id',id);
+            if(error)throw error;
+            dialog.close();await loadStudies();toast('Studi aktif. Undangan panelis dapat digunakan.');
+          }catch(error){$('readinessMessage').textContent=error.message;}
+          finally{setBusy(activate,false);}
+        };
+        dialog.showModal();
+      }catch(error){toast('Pemeriksaan gagal: '+error.message);}
+      finally{setBusy(button,false);}
+    }
 
     async function resumePanelist(){const {data,error}=await db.from('panelist_sessions').select('*').eq('auth_user_id',currentUser.id).is('completed_at',null).order('created_at',{ascending:false}).limit(1).maybeSingle();if(error||!data){authGate.classList.remove('hidden');return}await startPanelist(data.id,currentUser)}
     async function startPanelist(sessionId,user){
