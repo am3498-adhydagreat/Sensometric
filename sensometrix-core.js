@@ -49,11 +49,11 @@
     const mean = numbers.reduce((sum, value) => sum + value, 0) / numbers.length;
     const variance = numbers.length > 1
       ? numbers.reduce((sum, value) => sum + ((value - mean) ** 2), 0) / (numbers.length - 1)
-      : 0;
+      : null;
     return {
       n: numbers.length,
       mean: round(mean),
-      sd: round(Math.sqrt(variance)),
+      sd: variance === null ? null : round(Math.sqrt(variance)),
       min: Math.min(...numbers),
       max: Math.max(...numbers)
     };
@@ -186,7 +186,7 @@
     }
     const values = (samples || []).map(sample => (attributes || []).map(attribute => {
       const bucket = buckets.get(`${sample.id}|${attribute.id}`) || [];
-      return bucket.length ? round(bucket.reduce((sum, value) => sum + value, 0) / bucket.length, 6) : null;
+      return bucket.length ? bucket.reduce((sum, value) => sum + value, 0) / bucket.length : null;
     }));
     return {
       sampleIds: (samples || []).map(sample => sample.id),
@@ -202,6 +202,8 @@
     const values = matrix.map(row => [...row]);
     const vectors = Array.from({length: size}, (_, row) => Array.from({length: size}, (_, column) => row === column ? 1 : 0));
     const maxIterations = Math.max(50, size * size * 100);
+    const matrixScale = Math.max(...values.flat().map(Math.abs));
+    const tolerance = Number.EPSILON * size * matrixScale;
     for (let iteration = 0; iteration < maxIterations; iteration += 1) {
       let p = 0, q = 1, largest = 0;
       for (let row = 0; row < size; row += 1) {
@@ -210,7 +212,7 @@
           if (magnitude > largest) [largest, p, q] = [magnitude, row, column];
         }
       }
-      if (largest < 1e-12) break;
+      if (largest <= tolerance) break;
       const angle = 0.5 * Math.atan2(2 * values[p][q], values[q][q] - values[p][p]);
       const cosine = Math.cos(angle), sine = Math.sin(angle);
       const pp = values[p][p], qq = values[q][q], pq = values[p][q];
@@ -242,8 +244,8 @@
     if (matrix.some(row => !Array.isArray(row) || row.length !== columnCount || row.some(value => typeof value !== 'number' || !Number.isFinite(value)))) throw new Error('PCA requires a complete numeric matrix');
     const means = Array.from({length: columnCount}, (_, column) => matrix.reduce((sum, row) => sum + row[column], 0) / matrix.length);
     const variances = means.map((mean, column) => matrix.reduce((sum, row) => sum + ((row[column] - mean) ** 2), 0) / (matrix.length - 1));
-    const includedColumnIndices = variances.map((variance, index) => variance > 1e-12 ? index : null).filter(index => index !== null);
-    const excludedColumnIndices = variances.map((variance, index) => variance <= 1e-12 ? index : null).filter(index => index !== null);
+    const includedColumnIndices = variances.map((variance, index) => variance > 0 ? index : null).filter(index => index !== null);
+    const excludedColumnIndices = variances.map((variance, index) => variance <= 0 ? index : null).filter(index => index !== null);
     if (includedColumnIndices.length < 2) throw new Error('PCA requires at least two varying attributes');
     const transformed = matrix.map(row => includedColumnIndices.map(column => {
       const centered = row[column] - means[column];
@@ -251,12 +253,13 @@
     }));
     const covariance = includedColumnIndices.map((_, left) => includedColumnIndices.map((__, right) => transformed.reduce((sum, row) => sum + row[left] * row[right], 0) / (matrix.length - 1)));
     const eigen = jacobiEigen(covariance);
-    const eigenvalues = eigen.map(item => round(item.value, 8));
+    // Keep computational values unrounded; format only at the presentation boundary.
+    const eigenvalues = eigen.map(item => item.value);
     const totalVariance = eigenvalues.reduce((sum, value) => sum + value, 0);
     const explainedVariance = eigenvalues.map(value => round(totalVariance ? value / totalVariance * 100 : 0, 6));
-    const scores = transformed.map(row => eigen.map(item => round(row.reduce((sum, value, index) => sum + value * item.vector[index], 0), 6)));
-    const loadings = includedColumnIndices.map((_, row) => eigen.map(item => round(item.vector[row] * Math.sqrt(item.value), 6)));
-    return {mode, eigenvalues, explainedVariance, scores, loadings, includedColumnIndices, excludedColumnIndices, means: includedColumnIndices.map(index => round(means[index], 6)), scales: includedColumnIndices.map(index => round(mode === 'correlation' ? Math.sqrt(variances[index]) : 1, 6))};
+    const scores = transformed.map(row => eigen.map(item => row.reduce((sum, value, index) => sum + value * item.vector[index], 0)));
+    const loadings = includedColumnIndices.map((_, row) => eigen.map(item => item.vector[row] * Math.sqrt(item.value)));
+    return {mode, eigenvalues, explainedVariance, scores, loadings, includedColumnIndices, excludedColumnIndices, means: includedColumnIndices.map(index => means[index]), scales: includedColumnIndices.map(index => mode === 'correlation' ? Math.sqrt(variances[index]) : 1)};
   }
 
   function triangleExact(total, correct) {
