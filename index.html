@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#123c3a" />
-  <title>SensaLab — Workspace Studi Sensori</title>
+  <title>Sensometrix — Workspace Studi Sensori</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap');
     :root{
@@ -74,8 +74,8 @@
     .table-wrap td{font-size:14px;padding-top:17px;padding-bottom:17px}.table-wrap tbody tr:hover{background:#f6fafb}
     .admin-bulk-toolbar{padding:12px 16px;background:#f3f7fa;border-radius:12px}
     .input,.select{font-size:14px}.nav-label,.logo small{font-size:12px}
-    #readinessDialog{width:min(640px,calc(100% - 28px));max-height:90vh;overflow:auto;border:1px solid var(--line);border-radius:24px;padding:28px;color:var(--ink);box-shadow:0 30px 90px #102d3933}
-    #readinessDialog::backdrop{background:#102d3977;backdrop-filter:blur(5px)}
+    #readinessDialog,#invitationDialog{width:min(640px,calc(100% - 28px));max-height:90vh;overflow:auto;border:1px solid var(--line);border-radius:24px;padding:28px;color:var(--ink);box-shadow:0 30px 90px #102d3933}
+    #readinessDialog::backdrop,#invitationDialog::backdrop{background:#102d3977;backdrop-filter:blur(5px)}
     #readinessTitle{font-size:24px;margin-top:8px;padding-right:28px}
     .readiness-row{display:grid;grid-template-columns:32px 1fr auto;gap:12px;align-items:center;padding:14px 0;border-bottom:1px solid var(--line);font-size:14px}
     .readiness-row p{margin:3px 0;color:var(--muted);font-size:13px}.readiness-row>span:last-child{font-size:12px}
@@ -101,7 +101,7 @@
   <div class="auth-gate" id="authGate">
     <div class="auth-shell">
       <section class="auth-brand"><div class="logo-mark">S</div><div class="eyebrow" style="color:#cce874">SENSOMETRIC CLOUD</div><h1>Riset sensori yang tersimpan dan terhubung.</h1><p>Kelola studi, randomisasi, dan respons panelis dalam satu workspace yang aman.</p><div class="auth-features"><span>✓ Data tersimpan permanen di Supabase</span><span>✓ Akses peneliti dan panelis dipisahkan</span><span>✓ Row Level Security aktif</span></div></section>
-      <section class="auth-panel"><span class="connection-pill">Supabase connected</span><h2 style="margin-top:18px">Masuk ke SensaLab</h2><p style="color:var(--muted);font-size:13px">Pilih akses sesuai peran Anda.</p><div class="auth-tabs"><button class="active" data-auth-tab="researcher">Peneliti</button><button data-auth-tab="panelist">Panelis</button></div>
+      <section class="auth-panel"><span class="connection-pill">Supabase connected</span><h2 style="margin-top:18px">Masuk ke Sensometrix</h2><p style="color:var(--muted);font-size:13px">Pilih akses sesuai peran Anda.</p><div class="auth-tabs"><button class="active" data-auth-tab="researcher">Peneliti</button><button data-auth-tab="panelist">Panelis</button></div>
         <div class="auth-pane active" id="researcherAuth"><div class="form-group"><label>Nama lengkap <small>(untuk pendaftaran)</small></label><input class="input" id="authName" autocomplete="name" placeholder="Nama peneliti"></div><div class="form-group"><label>Email</label><input class="input" id="authEmail" type="email" autocomplete="email" placeholder="nama@institusi.ac.id"></div><div class="form-group"><label>Password</label><input class="input" id="authPassword" type="password" autocomplete="current-password" minlength="6" placeholder="Minimal 6 karakter"></div><div class="auth-actions"><button class="primary" id="signInButton">Masuk</button><button class="ghost" id="signUpButton">Daftar</button></div></div>
         <div class="auth-pane" id="panelistAuth"><div class="form-group"><label>Kode studi</label><input class="input" id="joinCode" autocomplete="off" maxlength="12" placeholder="Contoh: A1B2C3D4" style="text-transform:uppercase"></div><div class="form-group"><label>Token undangan</label><input class="input" id="participantCode" autocomplete="off" maxlength="64" placeholder="Token pribadi dari peneliti"></div><button class="primary" id="joinStudyButton" style="width:100%;margin-top:10px">Masuk ke sesi penilaian →</button></div><div class="auth-message" id="authMessage"></div>
       </section>
@@ -109,7 +109,7 @@
   </div>
   <div class="app">
     <aside class="sidebar">
-      <div class="logo"><div class="logo-mark">S</div><div class="logo-copy"><strong>SensaLab</strong><small>Sensory intelligence</small></div></div>
+      <div class="logo"><div class="logo-mark">S</div><div class="logo-copy"><strong>Sensometrix</strong><small>Sensory intelligence</small></div></div>
       <div class="nav-label">Workspace</div>
       <nav class="nav" aria-label="Navigasi utama">
         <button class="active" data-view="overview"><span class="ico">⌂</span><span>Ringkasan</span></button>
@@ -192,7 +192,7 @@
 
         <section class="view" id="studies">
           <div class="headline"><div><div class="eyebrow">Study workspace</div><h1>Studi Saya</h1><p>Siapkan, jalankan, dan pantau seluruh pengujian sensori dari satu tempat.</p></div><button class="primary" data-view="create">＋ Studi baru</button></div>
-          <div class="toolbar"><div class="segmented" id="studyFilter"><button class="active" data-filter="all">Semua</button><button data-filter="Berlangsung">Berlangsung</button><button data-filter="Draft">Draft</button><button data-filter="Selesai">Selesai</button></div><input class="input" id="studySearch" aria-label="Cari studi" placeholder="Cari nama atau kode studi…" style="flex:1;min-width:180px"><select class="select" id="studySort" aria-label="Urutkan studi"><option value="newest">Terbaru</option><option value="name">Nama A–Z</option></select></div>
+          <div class="toolbar"><div class="segmented" id="studyFilter"><button class="active" data-filter="all">Semua</button><button data-filter="Berlangsung">Berlangsung</button><button data-filter="Draft">Draft</button><button data-filter="Selesai">Selesai</button><button data-filter="archived">Arsip</button></div><input class="input" id="studySearch" aria-label="Cari studi" placeholder="Cari nama atau kode studi…" style="flex:1;min-width:180px"><select class="select" id="studySort" aria-label="Urutkan studi"><option value="newest">Terbaru</option><option value="name">Nama A–Z</option></select></div>
           <div class="study-grid" id="studyGrid">
             <article class="study-card" data-status="Berlangsung"><div class="study-card-top"><span class="type-pill">CLT</span><span class="status live">Berlangsung</span></div><h3>Consumer Test — Minuman Oat</h3><p>Mengukur overall liking dan JAR untuk 3 formula minuman oat.</p><div class="study-stats"><div><b>36 / 50</b><span>Panelis</span></div><div><b>72%</b><span>Respons</span></div></div><div class="card-actions"><button data-view="analytics">Buka hasil</button><button data-action="panelist">Panelis</button></div></article>
             <article class="study-card" data-status="Selesai"><div class="study-card-top"><span class="type-pill">QDA</span><span class="status done">Selesai</span></div><h3>Profil Aroma Kopi Arabika</h3><p>Profil intensitas 12 atribut untuk tiga origin kopi lokal.</p><div class="study-stats"><div><b>10 / 10</b><span>Panelis</span></div><div><b>3</b><span>Replikasi</span></div></div><div class="card-actions"><button data-view="analytics">Buka hasil</button><button>Ekspor</button></div></article>
@@ -226,7 +226,7 @@
         <section class="view" id="monitor">
           <div class="headline"><div><div class="eyebrow">Live fieldwork</div><h1>Monitor Panelis</h1><p>Pantau panelis, sampel aktif, replikasi, progres, dan aktivitas terakhir secara real-time.</p></div><button class="ghost" id="refreshMonitor">↻ Perbarui</button></div>
           <div class="study-context"><label for="monitorStudySelect"><b>Studi</b></label><select class="input" id="monitorStudySelect"><option value="">Pilih studi berlangsung</option></select><span class="live-dot" id="monitorLiveState">REAL-TIME</span></div>
-          <div id="monitorContent"><div class="empty-results"><h3>Belum ada studi dipilih</h3><p>Buka monitor dari kartu studi untuk melihat progres panelis.</p></div></div>
+          <div class="toolbar"><label for="monitorFilter">Status panelis</label><select class="select" id="monitorFilter"><option value="all">Semua</option><option value="waiting">Belum mulai</option><option value="active">Sedang menilai</option><option value="complete">Selesai</option></select><input class="input" id="monitorSearch" placeholder="Cari kode panelis…" aria-label="Cari panelis"></div><div id="monitorContent" ><div class="empty-results"><h3>Belum ada studi dipilih</h3><p>Buka monitor dari kartu studi untuk melihat progres panelis.</p></div></div>
         </section>
 
         <section class="view" id="admin">
@@ -248,10 +248,10 @@
   <div class="panelist-app" id="panelistApp"><div class="panelist-top"><b id="panelistStudyName">Sesi penilaian</b><button id="panelistSignOut">Keluar</button></div><main class="panelist-shell"><section class="panelist-hero"><div class="eyebrow" id="panelistMethod">SENSORY EVALUATION</div><h2 id="panelistSampleTitle" style="margin-top:7px">Menyiapkan sampel…</h2><p id="panelistInstruction" style="color:var(--muted);margin-bottom:0">Mohon tunggu.</p><div class="panelist-progress"><i id="panelistProgressBar" style="width:0"></i></div></section><div class="panelist-form" id="panelistQuestions"></div><div class="panelist-footer"><button class="primary" id="savePanelistResponse">Simpan & lanjutkan →</button></div></main></div>
   <div class="sync-banner" id="syncBanner">Menyinkronkan data…</div>
   <div class="toast" id="toast">Perubahan tersimpan.</div>
-<dialog id="readinessDialog" aria-labelledby="readinessTitle"><form method="dialog"><button class="close" aria-label="Tutup" style="float:right">×</button></form><div class="eyebrow">Sebelum pengumpulan data</div><h2 id="readinessTitle"></h2><p>Checklist kesiapan studi</p><div id="readinessList"></div><p id="readinessMessage" role="status"></p><div class="modal-actions"><button class="ghost" id="readinessDesign">Buka desain</button><button class="primary" id="readinessActivate">Aktifkan studi</button></div></dialog>
+<dialog id="invitationDialog" aria-labelledby="invitationTitle"><form method="dialog"><button class="close" aria-label="Tutup" style="float:right">×</button></form><h2 id="invitationTitle">Undangan panelis</h2><p id="invitationNote" role="status"></p><button class="secondary" id="exportInvitations">Ekspor undangan CSV</button><div class="table-wrap"><table><thead><tr><th>Panelis</th><th>Status</th><th>Kedaluwarsa</th><th>Tindakan</th></tr></thead><tbody id="invitationRows"></tbody></table></div><div id="invitationQR" aria-live="polite"></div></dialog><dialog id="readinessDialog"  aria-labelledby="readinessTitle"><form method="dialog"><button class="close" aria-label="Tutup" style="float:right">×</button></form><div class="eyebrow">Sebelum pengumpulan data</div><h2 id="readinessTitle"></h2><p>Checklist kesiapan studi</p><div id="readinessList"></div><p id="readinessMessage" role="status"></p><div class="modal-actions"><button class="ghost" id="readinessDesign">Buka desain</button><button class="primary" id="readinessActivate">Aktifkan studi</button></div></dialog>
   <script>
     const titles={overview:'Ringkasan',create:'Create Baru',studies:'Studi Saya',random:'Randomisasi',questions:'Pustaka Pertanyaan',analytics:'Hasil & Analitik',monitor:'Monitor Panelis',admin:'Manajemen Data'};
-    const showView=id=>{document.querySelectorAll('.view').forEach(v=>v.classList.toggle('active',v.id===id));document.querySelectorAll('.nav button[data-view]').forEach(b=>b.classList.toggle('active',b.dataset.view===id));document.getElementById('pageTitle').textContent=titles[id]||'SensaLab';window.scrollTo(0,0)};
+    const showView=id=>{document.querySelectorAll('.view').forEach(v=>v.classList.toggle('active',v.id===id));document.querySelectorAll('.nav button[data-view]').forEach(b=>b.classList.toggle('active',b.dataset.view===id));document.getElementById('pageTitle').textContent=titles[id]||'Sensometrix';window.scrollTo(0,0)};
     document.addEventListener('click',e=>{const view=e.target.closest('[data-view]');if(view)showView(view.dataset.view);const action=e.target.closest('[data-action]')?.dataset.action;if(action==='new-study')document.getElementById('studyModal').classList.add('open');if(action==='close-modal')document.getElementById('studyModal').classList.remove('open');if(action==='panelist')document.getElementById('panelistPreview').classList.add('open');if(action==='close-phone')document.getElementById('panelistPreview').classList.remove('open')});
     const toast=msg=>{const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2600)};
     const libraryGroups={
@@ -357,13 +357,14 @@
     function code(seed){return String(100+((seed*137+211)%900))}
     function renderDesign(){let type=document.getElementById('randomType').value;let n=type==='TRIANGLE'?2:Math.max(2,Math.min(6,+document.getElementById('sampleCount').value||3));let p=Math.max(6,+document.getElementById('panelCount').value||24);document.getElementById('sampleCount').value=n;document.getElementById('sampleCount').disabled=type==='TRIANGLE';let names=Array.from({length:n},(_,i)=>String.fromCharCode(65+i));document.getElementById('sampleChips').innerHTML=names.map((x,i)=>`<span class="chip">${x} · Formula ${i+1}</span>`).join('');let ps=patterns[n]||Array.from({length:n},(_,r)=>names.map((_,i)=>names[(i+r)%n]));if(type==='TRIANGLE')ps=[['A','A','B'],['A','B','A'],['B','A','A'],['B','B','A'],['B','A','B'],['A','B','B']];document.getElementById('designSummary').textContent=`${p} panelis · ${n} sampel · ${ps.length} pola urutan`;document.getElementById('designRows').innerHTML=Array.from({length:Math.min(p,10)},(_,i)=>{const seq=ps[i%ps.length];return `<tr><td><b>P-${String(i+1).padStart(3,'0')}</b></td><td><div class="order">${seq.map(x=>`<i>${x}</i>`).join('')}</div></td><td>${seq.map((_,j)=>`<span class="code">${code((i+1)*(j+2))}</span>`).join(' ')}</td><td>Pola ${(i%ps.length)+1}</td></tr>`}).join('')}
     document.getElementById('generateDesign').onclick=()=>{renderDesign();toast('Desain randomisasi berhasil diperbarui.')};document.getElementById('randomType').onchange=renderDesign;renderDesign();
-    document.getElementById('exportKitchen').onclick=()=>{const csv='Panelis,Urutan,Kode Buta\nP-001,A-B-C,485-622-759\nP-002,B-C-A,759-133-407';const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));a.download='sensalab-kitchen-sheet.csv';a.click();toast('Kitchen sheet berhasil diunduh.')};
+    document.getElementById('exportKitchen').onclick=()=>{const csv='Panelis,Urutan,Kode Buta\nP-001,A-B-C,485-622-759\nP-002,B-C-A,759-133-407';const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));a.download='sensometrix-kitchen-sheet.csv';a.click();toast('Kitchen sheet berhasil diunduh.')};
     document.getElementById('exportReport').onclick=()=>toast('Laporan analitik disiapkan untuk ekspor.');
     const scale=document.getElementById('aromaScale');scale.oninput=()=>document.getElementById('aromaValue').textContent=scale.value;document.getElementById('hedonicButtons').onclick=e=>{const b=e.target.closest('button');if(!b)return;document.querySelectorAll('#hedonicButtons button').forEach(x=>x.classList.remove('active'));b.classList.add('active')};
     document.getElementById('submitSample').onclick=()=>{if(!document.querySelector('#hedonicButtons .active')){toast('Pilih nilai overall liking terlebih dahulu.');return}document.getElementById('evaluationState').style.display='none';document.getElementById('completeState').style.display='block'};document.getElementById('resetPanelist').onclick=()=>{document.getElementById('evaluationState').style.display='block';document.getElementById('completeState').style.display='none'};
     document.addEventListener('keydown',e=>{if(e.key==='Escape'){document.getElementById('studyModal').classList.remove('open');document.getElementById('questionEditorModal').classList.remove('open');editingQuestionId=null;document.getElementById('panelistPreview').classList.remove('open')}});
     renderBuilder();
   </script>
+  <script src="qrcode.min.js"></script>
   <script src="sensometrix-core.js"></script>
   <script src="config.js"></script>
   <script>
@@ -462,13 +463,13 @@
     function fillStudySelectors(){
       for(const id of ['analysisStudySelect','monitorStudySelect']){
         const el=$(id),previous=el.value;
-        const studies=workspaceStudies.filter(study=>id!=='monitorStudySelect'||study.status==='Berlangsung');
+        const studies=workspaceStudies.filter(study=>id!=='monitorStudySelect'||(study.status==='Berlangsung'&&!study.archived_at));
         el.innerHTML='<option value="">'+(studies.length?'Pilih studi':'Belum ada studi'+(id==='monitorStudySelect'?' berlangsung':''))+'</option>'+studies.map(study=>'<option value="'+safe(study.id)+'">'+safe([study.name,study.method,study.status,study.access_code||study.id.slice(0,8)].join(' · '))+'</option>').join('');
         if(studies.some(study=>study.id===previous))el.value=previous;
       }
       $('studyCountBadge').textContent=workspaceStudies.length;
     }
-    async function loadStudies(){const grid=$('studyGrid');grid.innerHTML='<div class="empty-state"><h3>Memuat studi…</h3></div>';let {data,error}=await db.from('studies').select('*,samples(count),panelist_sessions(count)').order('created_at',{ascending:false});if(error){grid.innerHTML=`<div class="empty-state"><h3>Database belum siap</h3><p>${safe(error.message)}</p><p>Database perlu diperiksa oleh administrator. Ikuti panduan deployment versi ini.</p></div>`;return}workspaceStudies=data||[];fillStudySelectors();if(!data?.length){grid.innerHTML='<div class="empty-state"><h3>Belum ada studi</h3><p>Buat studi pertama Anda. Data akan langsung tersimpan di Supabase.</p><button class="primary" data-view="create">＋ Buat studi</button></div>';return}grid.innerHTML=data.map(study=>{const statusClass=study.status==='Berlangsung'?'live':study.status==='Selesai'?'done':'draft';const sampleCount=study.samples?.[0]?.count||0,panelCount=study.panelist_sessions?.[0]?.count||0;return `<article class="study-card db-card" data-status="${safe(study.status)}" data-study-id="${study.id}"><div class="study-card-top"><span class="type-pill">${safe(study.method)}</span><span class="status ${statusClass}">${safe(study.status)}</span></div><h3>${safe(study.name)}</h3><p>${safe(study.purpose||'Studi sensori tersimpan di Supabase.')}</p><span class="study-code">Kode: ${safe(study.access_code)}</span><p class="study-meta">${sampleCount} sampel · Dibuat ${dateTime(study.created_at)}</p><div class="study-stats"><div><b>${panelCount} / ${study.target_panelists}</b><span>Panelis</span></div><div><b>${study.replication_count||1}×</b><span>Replikasi</span></div></div><div class="card-actions">${study.status==='Draft'?`<button data-db-action="activate">Cek kesiapan →</button>`:`<button data-db-action="results">Hasil</button>${study.status==='Berlangsung'?'<button data-db-action="monitor">Monitor</button>':''}${study.status==='Berlangsung'?'<button data-db-action="finish">Finalkan</button>':''}`}<button data-db-action="design">Desain</button></div></article>`}).join('');applyStudyFilters()}
+    async function loadStudies(){const grid=$('studyGrid');grid.innerHTML='<div class="empty-state"><h3>Memuat studi…</h3></div>';let {data,error}=await db.from('studies').select('*,samples(count),panelist_sessions(count)').order('created_at',{ascending:false});if(error){grid.innerHTML=`<div class="empty-state"><h3>Database belum siap</h3><p>${safe(error.message)}</p><p>Database perlu diperiksa oleh administrator. Ikuti panduan deployment versi ini.</p></div>`;return}workspaceStudies=data||[];fillStudySelectors();if(!data?.length){grid.innerHTML='<div class="empty-state"><h3>Belum ada studi</h3><p>Buat studi pertama Anda. Data akan langsung tersimpan di Supabase.</p><button class="primary" data-view="create">＋ Buat studi</button></div>';return}grid.innerHTML=data.map(study=>{const statusClass=study.status==='Berlangsung'?'live':study.status==='Selesai'?'done':'draft';const sampleCount=study.samples?.[0]?.count||0,panelCount=study.panelist_sessions?.[0]?.count||0;return `<article class="study-card db-card" data-status="${safe(study.status)}" data-study-id="${study.id}" data-archived="${!!study.archived_at}"><div class="study-card-top"><span class="type-pill">${safe(study.method)}</span><span class="status ${statusClass}">${study.archived_at?'Arsip · ':''}${safe(study.status)}</span></div><h3>${safe(study.name)}</h3><p>${safe(study.purpose||'Studi sensori tersimpan di Supabase.')}</p><span class="study-code">Kode: ${safe(study.access_code)}</span><p class="study-meta">${sampleCount} sampel · Dibuat ${dateTime(study.created_at)}</p><div class="study-stats"><div><b>${panelCount} / ${study.target_panelists}</b><span>Panelis</span></div><div><b>${study.replication_count||1}×</b><span>Replikasi</span></div></div><div class="card-actions">${study.status==='Draft'&&!study.archived_at?`<button data-db-action="activate">Cek kesiapan →</button>`:`<button data-db-action="results">Hasil</button>${study.status==='Berlangsung'?'<button data-db-action="monitor">Monitor</button>':''}${study.status==='Berlangsung'?'<button data-db-action="finish">Finalkan</button>':''}`}<button data-db-action="design">Desain</button><button data-db-action="duplicate">Duplikat</button>${study.status==='Berlangsung'?'<button data-db-action="invitations">Undangan</button>':'<button data-db-action="archive">'+(study.archived_at?'Pulihkan':'Arsipkan')+'</button>'}</div></article>`}).join('');applyStudyFilters()}
 
     async function createStudyRecordRaw({name,method,purpose='',location='',target=24,startDate=null,replications=1,sampleNames=[],requestId}){syncing(true,'Menyimpan studi…');const replicationCount=Math.max(1,Math.min(5,+replications||1));const {data:study,error}=await db.from('studies').insert({id:requestId,owner_id:currentUser.id,name,method,purpose,location,target_panelists:+target||24,replication_count:replicationCount,start_date:startDate||null,status:'Draft',access_code:randomCode()}).select().single();if(error){syncing(false);throw error}const names=sampleNames.length?sampleNames:Array.from({length:method==='TRIANGLE'?2:3},(_,i)=>`Formula ${i+1}`);const sampleRows=names.map((sampleName,i)=>({study_id:study.id,code:String.fromCharCode(65+i),name:sampleName,sample_type:'Produk uji',position:i+1}));let result=await db.from('samples').insert(sampleRows);if(result.error){await db.from('studies').delete().eq('id',study.id);syncing(false);throw result.error}const extraAttributes=window.getQuestionnaireAttributes?.()||[];const combined=[...(templates[method]||[]),...extraAttributes].filter((item,index,array)=>array.findIndex(x=>x.name===item.name&&x.scale_type===item.scale_type)===index);const attrRows=combined.map((a,i)=>({...a,question_type:a.question_type||a.scale_type,scale_type:storedQuestionType(a.scale_type),config:a.config||{},study_id:study.id,position:i+1}));result=await db.from('attributes').insert(attrRows);if(result.error){await db.from('studies').delete().eq('id',study.id);syncing(false);throw result.error}syncing(false);return study}
 
@@ -477,7 +478,7 @@
     const originalWizardNext=$('wizardNext').onclick;
     $('wizardNext').onclick=async()=>{if(studyCreationBusy)return;if(wizardStep<4)return originalWizardNext();const button=$('wizardNext'),name=$('wizardName').value.trim();if(!name)return toast('Nama studi wajib diisi.');setBusy(button,true,'Menyimpan…');try{const sampleNames=[...document.querySelectorAll('#sampleEditorRows .sample-name')].map(x=>x.value.trim()).filter(Boolean);await createStudyRecord({name,method:wizardMethod,purpose:$('wizardPurpose').value.trim(),location:$('wizardLocation').value.trim(),target:$('wizardPanelists').value,replications:$('wizardReplications').value,startDate:$('wizardDate').value||null,sampleNames});wizardStep=1;updateWizard();await loadStudies();showView('studies');toast('Studi dan seluruh parameter tersimpan.')}catch(error){toast('Gagal menyimpan: '+error.message)}finally{setBusy(button,false)}};
 
-    document.addEventListener('click',async event=>{const card=event.target.closest('.db-card'),button=event.target.closest('[data-db-action]');if(!card||!button)return;const id=card.dataset.studyId,action=button.dataset.dbAction;if(action==='copy-code'){await navigator.clipboard.writeText(card.querySelector('.study-code').textContent.replace('Kode: ','').trim());toast('Kode studi disalin.')}if(action==='activate'){await openReadiness(id,button);}if(action==='finish'){setBusy(button,true,'Memfinalkan…');const {error}=await db.from('studies').update({status:'Selesai'}).eq('id',id);setBusy(button,false);if(error)return toast('Gagal: '+error.message);await loadStudies();toast('Studi selesai. Hasil sekarang berstatus final.')}if(action==='design')await openDesign(id);if(action==='results')await openResearcherView('analytics',id);if(action==='monitor')await openResearcherView('monitor',id)});
+    document.addEventListener('click',async event=>{const card=event.target.closest('.db-card'),button=event.target.closest('[data-db-action]');if(!card||!button)return;const id=card.dataset.studyId,action=button.dataset.dbAction;if(['duplicate','archive','invitations'].includes(action)){await studyWorkspaceAction(action,id,button);return;}if(action==='copy-code'){await navigator.clipboard.writeText(card.querySelector('.study-code').textContent.replace('Kode: ','').trim());toast('Kode studi disalin.')}if(action==='activate'){await openReadiness(id,button);}if(action==='finish'){setBusy(button,true,'Memfinalkan…');const {error}=await db.from('studies').update({status:'Selesai'}).eq('id',id);setBusy(button,false);if(error)return toast('Gagal: '+error.message);await loadStudies();toast('Studi selesai. Hasil sekarang berstatus final.')}if(action==='design')await openDesign(id);if(action==='results')await openResearcherView('analytics',id);if(action==='monitor')await openResearcherView('monitor',id)});
 
     async function openDesign(id){const {data:study,error}=await db.from('studies').select('*').eq('id',id).single();if(error)return toast(error.message);const samplesResult=await db.from('samples').select('*').eq('study_id',id).order('position');activeStudy=study;activeSamples=samplesResult.data||[];$('randomType').value=study.method;$('sampleCount').value=activeSamples.length;$('panelCount').value=study.target_panelists;$('sampleChips').innerHTML=activeSamples.map(x=>`<span class="chip">${safe(x.code)} · ${safe(x.name)}</span>`).join('');showView('random');renderDesign()}
     function randomBlindCodes(count){const codes=new Set();while(codes.size<count){const x=crypto.getRandomValues(new Uint32Array(1))[0];if(x<4294966500)codes.add(String(100+x%900));}return [...codes];}
@@ -485,10 +486,8 @@
     $('generateDesign').onclick=async()=>{if(!activeStudy){renderDesign();return toast('Preview diperbarui. Pilih studi dari Studi Saya untuk menyimpan.')}const button=$('generateDesign'),orders=buildOrders();setBusy(button,true,'Menyimpan desain…');const {error}=await db.from('serving_orders').upsert(orders,{onConflict:'study_id,participant_code'});setBusy(button,false);if(error)return toast('Gagal menyimpan desain: '+error.message);activeOrders=orders;renderOrdersTable(orders);toast('Desain randomisasi tersimpan di Supabase.')};
     function renderOrdersTable(orders){$('designSummary').textContent=`${orders.length} panelis · ${activeSamples.length} sampel · tersimpan di Supabase`;$('designRows').innerHTML=orders.slice(0,10).map(row=>`<tr><td><b>${safe(row.participant_code)}</b></td><td><div class="order">${row.sequence.map(x=>`<i>${safe(x)}</i>`).join('')}</div></td><td>${row.blind_codes.map(x=>`<span class="code">${safe(x)}</span>`).join(' ')}</td><td>${safe(row.pattern_label)}</td></tr>`).join('')}
     const inviteButton=document.createElement('button');inviteButton.className='secondary';inviteButton.textContent='Export undangan panelis';$('exportKitchen').after(inviteButton);
-    inviteButton.onclick=async()=>{if(!activeStudy)return toast('Pilih studi terlebih dahulu.');setBusy(inviteButton,true,'Menyiapkan…');try{
-      const {data,error}=await db.rpc('issue_study_invitations',{p_study_id:activeStudy.id});if(error)throw error;
-      const csv=['participant_code,study_code,invitation_token',...data.map(x=>[x.participant_code,activeStudy.access_code,x.token].map(csvCell).join(','))].join('\r\n');downloadCsv(csv,'participant_invitations.csv');toast('Bagikan hanya undangan milik masing-masing panelis.');
-    }catch(error){toast(error.message)}finally{setBusy(inviteButton,false)}};
+    inviteButton.textContent='Kelola undangan';
+    inviteButton.onclick=()=>activeStudy?openInvitations(activeStudy.id):toast('Pilih studi terlebih dahulu.');
     const csvCell=value=>'"'+String(value??'').replace(/^[=+@-]/,"'$&").replaceAll('"','""')+'"';
     function downloadCsv(csv,name){const url=URL.createObjectURL(new Blob(['\ufeff'+csv],{type:'text/csv;charset=utf-8'}));const a=document.createElement('a');a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)}
     const duplicateButton=document.createElement('button');duplicateButton.className='secondary';duplicateButton.textContent='Duplikat sebagai draft';$('exportKitchen').after(duplicateButton);
@@ -597,7 +596,7 @@
     const rawExport=document.createElement('button');rawExport.className='secondary';rawExport.textContent='Export semua respons CSV';$('analysisStudySelect').after(rawExport);
     rawExport.onclick=async()=>{const id=$('analysisStudySelect').value;if(!id)return toast('Pilih studi.');setBusy(rawExport,true,'Memuat…');try{const b=await loadStudyBundle(id),sessions=byId(b.sessions),samples=byId(b.samples),attrs=byId(b.attributes);
       const cols=['session_id','participant_code','complete','sample','question','replicate','value_num','value_text','notes','created_at'];
-      downloadCsv([cols.join(','),...b.responses.map(r=>[r.session_id,sessions.get(r.session_id)?.participant_code,!!sessions.get(r.session_id)?.completed_at,samples.get(r.sample_id)?.name,attrs.get(r.attribute_id)?.name,r.replicate_number,r.value_num,r.value_text,r.notes,r.created_at].map(csvCell).join(','))].join('\r\n'),'sensometrix_responses.csv');
+      downloadCsv([cols.join(','),...b.responses.map(r=>[r.session_id,sessions.get(r.session_id)?.participant_code,sessions.has(r.session_id)&&SensometrixCore.progressMeta(sessions.get(r.session_id),b.study,b.samples.length).complete,samples.get(r.sample_id)?.name,attrs.get(r.attribute_id)?.name,r.replicate_number,r.value_num,r.value_text,r.notes,r.created_at].map(csvCell).join(','))].join('\r\n'),'sensometrix_responses.csv');
     }catch(error){toast(error.message)}finally{setBusy(rawExport,false)}};
     function renderRawResponses(bundle,responses){const sessionMap=byId(bundle.sessions),sampleMap=byId(bundle.samples),attributeMap=byId(bundle.attributes);return `<section class="result-section"><div class="panel-head"><div><h3>Respons yang dianalisis</h3><p class="chart-sub">Hanya sesi lengkap; data parsial otomatis dikecualikan.</p></div><span class="status done">${responses.length} baris</span></div><div class="table-wrap raw-table"><table><thead><tr><th>Panelis</th><th>Replikasi</th><th>Sampel</th><th>Atribut</th><th>Nilai</th><th>Waktu</th></tr></thead><tbody>${responses.slice(0,500).map(response=>`<tr><td>${safe(sessionMap.get(response.session_id)?.participant_code||'—')}</td><td>R${response.replicate_number||1}</td><td>${safe(sampleMap.get(response.sample_id)?.name||'—')}</td><td>${safe(attributeMap.get(response.attribute_id)?.name||'—')}</td><td>${safe(response.value_text??response.value_num??'—')}</td><td>${dateTime(response.created_at)}</td></tr>`).join('')||'<tr><td colspan="6">Belum ada respons lengkap.</td></tr>'}</tbody></table></div></section>`}
 
@@ -617,7 +616,7 @@
     }
 
     function monitorStatus(meta){if(meta.complete)return {label:'Selesai',className:'complete-session'};if(meta.completedSteps>0)return {label:'Menilai',className:'active-session'};return {label:'Menunggu',className:'waiting'}}
-    async function loadMonitor(studyId){if(!studyId){$('monitorContent').innerHTML='<div class="empty-results"><h3>Pilih studi untuk membuka monitor</h3></div>';return}syncing(true,'Memuat monitor panelis…');try{const bundle=await loadStudyBundle(studyId),orderMap=new Map(bundle.orders.map(order=>[order.participant_code,order])),sampleByCode=new Map(bundle.samples.map(sample=>[sample.code,sample]));const rows=bundle.sessions.map(session=>{const meta=SensometrixCore.progressMeta(session,bundle.study,bundle.samples.length),status=monitorStatus(meta),order=orderMap.get(session.participant_code),sequenceIndex=bundle.study.method==='TRIANGLE'?meta.replicateNumber-1:meta.completedSteps,currentCode=bundle.study.method==='TRIANGLE'?'Set triangle':order?.sequence?.[Math.min(sequenceIndex,Math.max(0,(order?.sequence?.length||1)-1))],sample=currentCode==='Set triangle'?currentCode:(sampleByCode.get(currentCode)?.name||currentCode||'Belum mulai');return `<tr><td><b>${safe(session.participant_code)}</b></td><td><span class="status ${status.className}">${status.label}</span></td><td>${safe(sample)}</td><td>R${meta.replicateNumber}/${bundle.study.replication_count||1}</td><td class="progress-cell"><b>${meta.percent}%</b><div class="progress-track"><i style="width:${meta.percent}%"></i></div><small>${meta.completedSteps}/${meta.totalSteps} langkah</small></td><td>${dateTime(session.last_active_at||session.updated_at||session.created_at)}</td></tr>`}).join('');const complete=bundle.sessions.filter(session=>SensometrixCore.progressMeta(session,bundle.study,bundle.samples.length).complete).length,active=bundle.sessions.filter(session=>{const meta=SensometrixCore.progressMeta(session,bundle.study,bundle.samples.length);return meta.completedSteps>0&&!meta.complete}).length,waiting=bundle.sessions.length-complete-active,average=bundle.sessions.length?Math.round(bundle.sessions.reduce((sum,session)=>sum+SensometrixCore.progressMeta(session,bundle.study,bundle.samples.length).percent,0)/bundle.sessions.length):0;$('monitorContent').innerHTML=`<div class="monitor-kpis"><div class="result-kpi"><b>${bundle.sessions.length}</b><span>Panelis terdaftar</span></div><div class="result-kpi"><b>${active}</b><span>Sedang menilai</span></div><div class="result-kpi"><b>${complete}</b><span>Selesai lengkap</span></div><div class="result-kpi"><b>${average}%</b><span>Rata-rata progres</span></div></div><section class="result-section"><div class="panel-head"><div><h3>${safe(bundle.study.name)}</h3><p class="chart-sub">${waiting} menunggu · ${active} aktif · ${complete} selesai</p></div><span class="live-dot">LIVE</span></div><div class="table-wrap"><table><thead><tr><th>Panelis</th><th>Status</th><th>Sampel aktif</th><th>Replikasi</th><th>Progres</th><th>Terakhir aktif</th></tr></thead><tbody>${rows||'<tr><td colspan="6">Belum ada panelis yang bergabung.</td></tr>'}</tbody></table></div></section>`;subscribeStudy(studyId,'monitor')}catch(error){$('monitorContent').innerHTML=`<div class="empty-results"><h3>Monitor tidak dapat dimuat</h3><p>${safe(error.message)}</p></div>`}finally{syncing(false)}}
+    async function loadMonitor(studyId){if(!studyId){$('monitorContent').innerHTML='<div class="empty-results"><h3>Pilih studi untuk membuka monitor</h3></div>';return}syncing(true,'Memuat monitor panelis…');try{const bundle=await loadStudyBundle(studyId),orderMap=new Map(bundle.orders.map(order=>[order.participant_code,order])),sampleByCode=new Map(bundle.samples.map(sample=>[sample.code,sample]));const monitorSessions=[...bundle.sessions,...bundle.orders.filter(o=>!bundle.sessions.some(session=>session.participant_code===o.participant_code)).map(o=>({participant_code:o.participant_code,progress:0}))];const rows=monitorSessions.map(session=>{const meta=SensometrixCore.progressMeta(session,bundle.study,bundle.samples.length),status=monitorStatus(meta),order=orderMap.get(session.participant_code),sequenceIndex=bundle.study.method==='TRIANGLE'?meta.replicateNumber-1:meta.completedSteps,currentCode=bundle.study.method==='TRIANGLE'?'Set triangle':order?.sequence?.[Math.min(sequenceIndex,Math.max(0,(order?.sequence?.length||1)-1))],sample=currentCode==='Set triangle'?currentCode:(sampleByCode.get(currentCode)?.name||currentCode||'Belum mulai');return `<tr data-panel-code="${safe(session.participant_code)}" data-panel-state="${meta.complete?'complete':meta.completedSteps>0?'active':'waiting'}"><td><b>${safe(session.participant_code)}</b></td><td><span class="status ${status.className}">${status.label}</span></td><td>${safe(sample)}</td><td>R${meta.replicateNumber}/${bundle.study.replication_count||1}</td><td class="progress-cell"><b>${meta.percent}%</b><div class="progress-track"><i style="width:${meta.percent}%"></i></div><small>${meta.completedSteps}/${meta.totalSteps} langkah</small></td><td>${session.created_at?dateTime(session.last_active_at||session.updated_at||session.created_at):'Belum bergabung'}</td></tr>`}).join('');const complete=monitorSessions.filter(session=>SensometrixCore.progressMeta(session,bundle.study,bundle.samples.length).complete).length,active=monitorSessions.filter(session=>{const meta=SensometrixCore.progressMeta(session,bundle.study,bundle.samples.length);return meta.completedSteps>0&&!meta.complete}).length,waiting=monitorSessions.length-complete-active,average=monitorSessions.length?Math.round(monitorSessions.reduce((sum,session)=>sum+SensometrixCore.progressMeta(session,bundle.study,bundle.samples.length).percent,0)/monitorSessions.length):0;$('monitorContent').innerHTML=`<div class="monitor-kpis"><div class="result-kpi"><b>${monitorSessions.length}</b><span>Panelis dalam desain</span></div><div class="result-kpi"><b>${active}</b><span>Sedang menilai</span></div><div class="result-kpi"><b>${complete}</b><span>Selesai lengkap</span></div><div class="result-kpi"><b>${average}%</b><span>Rata-rata progres</span></div></div><section class="result-section"><div class="panel-head"><div><h3>${safe(bundle.study.name)}</h3><p class="chart-sub">${waiting} menunggu · ${active} aktif · ${complete} selesai</p></div><span class="live-dot">LIVE</span></div><div class="table-wrap"><table><thead><tr><th>Panelis</th><th>Status</th><th>Sampel aktif</th><th>Replikasi</th><th>Progres</th><th>Terakhir aktif</th></tr></thead><tbody>${rows||'<tr><td colspan="6">Belum ada panelis yang bergabung.</td></tr>'}</tbody></table></div></section>`;applyMonitorFilters();subscribeStudy(studyId,'monitor')}catch(error){$('monitorContent').innerHTML=`<div class="empty-results"><h3>Monitor tidak dapat dimuat</h3><p>${safe(error.message)}</p></div>`}finally{syncing(false)}}
 
     function subscribeStudy(studyId,target){if(liveChannel)db.removeChannel(liveChannel);const refresh=()=>{clearTimeout(liveRefreshTimer);liveRefreshTimer=setTimeout(()=>target==='monitor'?loadMonitor(studyId):loadAnalysis(studyId),450)};liveChannel=db.channel(`study-live-${studyId}-${target}`).on('postgres_changes',{event:'*',schema:'public',table:'panelist_sessions',filter:`study_id=eq.${studyId}`},refresh).on('postgres_changes',{event:'*',schema:'public',table:'responses',filter:`study_id=eq.${studyId}`},refresh).subscribe()}
     async function openResearcherView(view,studyId){showView(view);const select=$(view==='analytics'?'analysisStudySelect':'monitorStudySelect');select.value=studyId;if(view==='analytics')await loadAnalysis(studyId);else await loadMonitor(studyId)}
@@ -748,7 +747,7 @@
       cards.sort((a,b)=>$('studySort').value==='name'?a.querySelector('h3').textContent.localeCompare(b.querySelector('h3').textContent,'id'):order.get(a.dataset.studyId)-order.get(b.dataset.studyId));
       let visible=0;
       for(const card of cards){
-        const match=(status==='all'||card.dataset.status===status)&&card.textContent.toLocaleLowerCase().includes(query);
+        const match=(status==='archived'?card.dataset.archived==='true':card.dataset.archived!=='true'&&(status==='all'||card.dataset.status===status))&&card.textContent.toLocaleLowerCase().includes(query);
         card.hidden=!match;card.style.display=match?'':'none';
         if(match)visible++;
         $('studyGrid').append(card);
@@ -791,7 +790,7 @@
         const results=await Promise.all([db.from('studies').select('*').eq('id',id).single(),allStudyRows('samples',id),allStudyRows('attributes',id),allStudyRows('serving_orders',id)]);
         const failure=results.find(r=>r.error);if(failure)throw failure.error;
         const study=results[0].data,checks=readinessChecks(study,...results.slice(1).map(r=>r.data||[]));
-        const ready=study.status==='Draft'&&checks.every(c=>c.ok);
+        const ready=study.status==='Draft'&&!study.archived_at&&checks.every(c=>c.ok);
         const dialog=$('readinessDialog');
         $('readinessTitle').textContent=study.name;
         $('readinessList').innerHTML=checks.map(c=>'<div class="readiness-row"><span class="readiness-icon '+(c.ok?'passed':'pending')+'">'+(c.ok?'✓':'!')+'</span><div><b>'+safe(c.label)+'</b><p>'+safe(c.detail)+'</p></div><span>'+ (c.ok?'Siap':'Perlu dilengkapi')+'</span></div>').join('');
@@ -811,6 +810,101 @@
       }catch(error){toast('Pemeriksaan gagal: '+error.message);}
       finally{setBusy(button,false);}
     }
+
+    async function studyWorkspaceAction(action,id,button){
+      if(button.disabled)return;
+      if(action==='invitations')return openInvitations(id);
+      const study=workspaceStudies.find(s=>s.id===id);if(!study)return;
+      if(action==='archive'&&!confirm(study.archived_at?'Pulihkan studi dari arsip?':'Arsipkan studi ini? Data dan hasil tetap tersimpan.'))return;
+      setBusy(button,true,'Memproses…');
+      try{
+        const {data,error}=await db.rpc(action==='duplicate'?'duplicate_study_draft':'set_study_archived',
+          action==='duplicate'?{p_study_id:id}:{p_study_id:id,p_archived:!study.archived_at});
+        if(error)throw error;
+        await loadStudies();
+        if(action==='duplicate'){await openDesign(data);toast('Draft baru dibuat dengan sampel dan kuesioner. Buat urutan penyajian serta undangan baru.');}
+        else toast(study.archived_at?'Studi dipulihkan.':'Studi dipindahkan ke Arsip.');
+      }catch(error){toast(error.message);}finally{setBusy(button,false);}
+    }
+    function invitationUrl(code,token){
+      const url=new URL(location.href);url.search='';url.hash=new URLSearchParams({study:code,invite:token}).toString();return url.href;
+    }
+    async function openInvitations(id){
+      try{
+        const studyResult=await db.from('studies').select('*').eq('id',id).single();
+        if(studyResult.error)throw studyResult.error;
+        const study=studyResult.data;
+        if(study.status!=='Berlangsung'||study.archived_at)return toast('Aktifkan studi sebelum membagikan undangan.');
+        const result=await db.rpc('issue_study_invitations',{p_study_id:id});if(result.error)throw result.error;
+        const sessionResult=await allStudyRows('panelist_sessions',id);if(sessionResult.error)throw sessionResult.error;
+        const sessions=new Map(sessionResult.data.map(session=>[session.participant_code,session]));
+        const invitations=result.data||[];
+        $('invitationTitle').textContent='Undangan · '+study.name;
+        $('invitationNote').textContent='Bagikan tautan atau QR hanya kepada panelis yang sesuai. Membuka tautan belum mengklaim undangan.';
+        $('invitationQR').replaceChildren();
+        $('invitationRows').innerHTML=invitations.map((item,index)=>{
+          const session=sessions.get(item.participant_code),expired=new Date(item.expires_at).getTime()<=Date.now();
+          const status=session?(session.completed_at?'Selesai':'Sudah digunakan'):(expired?'Kedaluwarsa':'Belum digunakan');
+          return '<tr><td>'+safe(item.participant_code)+'</td><td>'+status+(session&&expired?' · kedaluwarsa':'')+'</td><td>'+safe(dateTime(item.expires_at))+'</td><td><button class="ghost" data-invite-copy="'+index+'">Salin tautan</button> <button class="secondary" data-invite-qr="'+index+'">QR</button></td></tr>';
+        }).join('')||'<tr><td colspan="4">Belum ada undangan.</td></tr>';
+        $('invitationRows').onclick=async event=>{
+          const button=event.target.closest('[data-invite-copy],[data-invite-qr]');if(!button)return;
+          const item=invitations[Number(button.dataset.inviteCopy??button.dataset.inviteQr)];
+          const link=invitationUrl(study.access_code,item.token);
+          if(button.hasAttribute('data-invite-copy')){
+            try{await navigator.clipboard.writeText(link);toast('Tautan '+item.participant_code+' disalin.');}
+            catch{prompt('Salin tautan undangan:',link);}
+          }else{
+            const box=$('invitationQR');box.replaceChildren();
+            const title=document.createElement('h3');title.textContent='Sensometrix · '+item.participant_code;box.append(title);
+            if(typeof QRCode==='undefined'){box.append('QR belum dapat dimuat. Gunakan Salin tautan.');return;}
+            const qr=document.createElement('div');qr.style.cssText='padding:24px;background:white;width:max-content;margin:16px 0';box.append(qr);
+            new QRCode(qr,{text:link,width:224,height:224,correctLevel:QRCode.CorrectLevel.M});
+            const download=document.createElement('button');download.className='ghost';download.textContent='Unduh QR';
+            download.onclick=()=>{const canvas=qr.querySelector('canvas'),img=qr.querySelector('img');const a=document.createElement('a');if(canvas){const padded=document.createElement('canvas');padded.width=canvas.width+48;padded.height=canvas.height+48;const context=padded.getContext('2d');context.fillStyle='#fff';context.fillRect(0,0,padded.width,padded.height);context.drawImage(canvas,24,24);a.href=padded.toDataURL('image/png');}else{a.href=img?.src||'';}if(!a.href)return;a.download='sensometrix-'+item.participant_code+'-qr.png';a.click();};
+            box.append(download);box.scrollIntoView({block:'nearest'});
+          }
+        };
+        $('exportInvitations').onclick=()=>downloadCsv([['Panelis','Kode studi','Tautan pribadi','Kedaluwarsa'].map(csvCell).join(','),...invitations.map(item=>[item.participant_code,study.access_code,invitationUrl(study.access_code,item.token),item.expires_at].map(csvCell).join(','))].join('\r\n'),'sensometrix_undangan.csv');
+        $('invitationDialog').showModal();
+      }catch(error){toast('Undangan gagal dimuat: '+error.message);}
+    }
+    const invitationParams=new URLSearchParams(location.hash.slice(1));
+    if(invitationParams.has('invite')){
+      $('joinCode').value=invitationParams.get('study')||'';
+      $('participantCode').value=invitationParams.get('invite')||'';
+      document.querySelector('[data-auth-tab="panelist"]')?.click();
+      history.replaceState(null,'',location.pathname+location.search);
+    }
+    function applyMonitorFilters(){
+      const filter=$('monitorFilter').value,query=$('monitorSearch').value.toLowerCase();
+      const rows=[...document.querySelectorAll('#monitorContent tr[data-panel-state]')];
+      let shown=0;
+      rows.forEach(row=>{row.hidden=!(filter==='all'||row.dataset.panelState===filter)||!row.dataset.panelCode.toLowerCase().includes(query);if(!row.hidden)shown++;});
+      $('monitorNoMatches')?.remove();
+      if(rows.length&&!shown)rows[0].parentElement.insertAdjacentHTML('beforeend','<tr id="monitorNoMatches"><td colspan="6">Tidak ada panelis yang cocok dengan filter.</td></tr>');
+    }
+    $('monitorFilter').onchange=applyMonitorFilters;$('monitorSearch').oninput=applyMonitorFilters;
+    function exportSummaryRows(bundle){
+      const completeIds=new Set(bundle.sessions.filter(session=>SensometrixCore.progressMeta(session,bundle.study,bundle.samples.length).complete).map(session=>session.id));
+      const rows=[['Sampel','Pertanyaan','Replikasi','Respons tersedia','Respons sesi lengkap','Respons sesi belum lengkap','Jumlah nilai numerik lengkap','Rata-rata nilai numerik lengkap','Status data']];
+      for(const sample of bundle.samples)for(const attribute of bundle.attributes)for(let rep=1;rep<=bundle.study.replication_count;rep++){
+        const values=bundle.responses.filter(r=>r.sample_id===sample.id&&r.attribute_id===attribute.id&&(r.replicate_number||1)===rep);
+        const complete=values.filter(r=>completeIds.has(r.session_id));
+        const numeric=complete.map(r=>r.value_num).filter(v=>v!==null&&v!==undefined&&Number.isFinite(Number(v))).map(Number);
+        const type=attribute.question_type||attribute.scale_type;
+        const summarize=bundle.study.method!=='TRIANGLE'&&['line','numeric','hedonic','jar','star'].includes(type);
+        rows.push([sample.name,attribute.name,rep,values.length,complete.length,values.length-complete.length,summarize?numeric.length:'',summarize&&numeric.length?numeric.reduce((a,b)=>a+b,0)/numeric.length:'',values.length===0?'Belum ada respons':values.length>complete.length?'Mengandung sesi belum lengkap':'Respons dari sesi lengkap']);
+      }
+      return rows;
+    }
+    const summaryExport=document.createElement('button');summaryExport.className='secondary';summaryExport.textContent='Ekspor rekap sampel';rawExport.after(summaryExport);
+    summaryExport.onclick=async()=>{
+      const id=$('analysisStudySelect').value;if(!id)return toast('Pilih studi.');
+      setBusy(summaryExport,true,'Menyiapkan…');
+      try{const bundle=await loadStudyBundle(id);downloadCsv(exportSummaryRows(bundle).map(row=>row.map(csvCell).join(',')).join('\r\n'),'sensometrix_rekap_sampel.csv');}
+      catch(error){toast(error.message);}finally{setBusy(summaryExport,false);}
+    };
 
     async function resumePanelist(){const {data,error}=await db.from('panelist_sessions').select('*').eq('auth_user_id',currentUser.id).is('completed_at',null).order('created_at',{ascending:false}).limit(1).maybeSingle();if(error||!data){authGate.classList.remove('hidden');return}await startPanelist(data.id,currentUser)}
     async function startPanelist(sessionId,user){
