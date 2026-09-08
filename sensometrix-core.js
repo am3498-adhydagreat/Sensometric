@@ -5,7 +5,8 @@
 })(typeof globalThis !== 'undefined' ? globalThis : this, function() {
   'use strict';
 
-  const finiteNumbers = values => values.map(Number).filter(Number.isFinite);
+  const numericValue = value => (typeof value === 'number' || (typeof value === 'string' && value.trim() !== '')) && Number.isFinite(Number(value)) ? Number(value) : null;
+  const finiteNumbers = values => values.map(numericValue).filter(value => value !== null);
   const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
   const round = (value, digits = 4) => Number.isFinite(value) ? Number(value.toFixed(digits)) : value;
 
@@ -61,7 +62,7 @@
   function groupNumericResponses(responses) {
     const buckets = {};
     for (const response of responses || []) {
-      const value = Number(response.value_num);
+      const value = numericValue(response.value_num);
       if (!Number.isFinite(value) || !response.sample_id || !response.attribute_id) continue;
       const sample = buckets[response.sample_id] ||= {};
       const attribute = sample[response.attribute_id] ||= {allValues: [], replicateValues: {}};
@@ -152,8 +153,8 @@
   const responseKey = response => `${response.session_id}|${response.sample_id}|${Number(response.replicate_number) || 1}`;
 
   function jarPenalty(jarResponses, likingResponses) {
-    const jar = (jarResponses || []).filter(response => Number.isFinite(Number(response.value_num)));
-    const likingMap = new Map((likingResponses || []).map(response => [responseKey(response), Number(response.value_num)]));
+    const jar = (jarResponses || []).filter(response => numericValue(response.value_num) !== null);
+    const likingMap = new Map((likingResponses || []).map(response => [responseKey(response), numericValue(response.value_num)]));
     const low = jar.filter(response => Number(response.value_num) < 3);
     const right = jar.filter(response => Number(response.value_num) === 3);
     const high = jar.filter(response => Number(response.value_num) > 3);
@@ -177,7 +178,7 @@
     });
     const buckets = new Map();
     for (const response of filtered) {
-      const value = Number(response.value_num);
+      const value = numericValue(response.value_num);
       if (!Number.isFinite(value)) continue;
       const key = `${response.sample_id}|${response.attribute_id}`;
       const values = buckets.get(key) || [];
@@ -191,7 +192,7 @@
       sampleIds: (samples || []).map(sample => sample.id),
       attributeIds: (attributes || []).map(attribute => attribute.id),
       values,
-      responseCount: filtered.filter(response => Number.isFinite(Number(response.value_num))).length,
+      responseCount: filtered.filter(response => numericValue(response.value_num) !== null).length,
       replicate
     };
   }
@@ -258,24 +259,23 @@
     return {mode, eigenvalues, explainedVariance, scores, loadings, includedColumnIndices, excludedColumnIndices, means: includedColumnIndices.map(index => round(means[index], 6)), scales: includedColumnIndices.map(index => round(mode === 'correlation' ? Math.sqrt(variances[index]) : 1, 6))};
   }
 
-  function combination(n, k) {
-    const m = Math.min(k, n - k);
-    let value = 1;
-    for (let i = 1; i <= m; i += 1) value = value * (n - m + i) / i;
-    return value;
+  function triangleExact(total, correct) {
+    const n = Number(total), k = Number(correct);
+    if (!Number.isSafeInteger(n) || !Number.isSafeInteger(k) || n < 0 || k < 0 || k > n) throw new Error('Triangle counts must be integers with 0 <= correct <= total');
+    if (!n) return {total: 0, correct: 0, pValue: null, significant: false};
+    const pValue = k === 0 ? 1 : clamp(regularizedBeta(1 / 3, k, n - k + 1), 0, 1);
+    return {total:n, correct:k, pValue, significant:pValue < 0.05};
   }
 
-  function triangleExact(total, correct) {
-    const n = Math.max(0, Math.trunc(Number(total) || 0));
-    const k = clamp(Math.trunc(Number(correct) || 0), 0, n);
-    const chance = 1 / 3;
-    let pValue = 0;
-    for (let i = k; i <= n; i += 1) pValue += combination(n, i) * (chance ** i) * ((1 - chance) ** (n - i));
-    pValue = clamp(pValue, 0, 1);
-    return {total: n, correct: k, pValue: round(pValue, 6), significant: pValue < 0.05};
+  // Blocked/repeated observations require a design-specific model. Never silently
+  // feed them into the independent-groups ANOVA retained for external callers.
+  function designAnova() {
+    return {f:null,p:null,dfBetween:'—',dfWithin:'—',reason:'Repeated panelist design: inferential model not yet enabled'};
   }
 
   return {
+    numericValue,
+    designAnova,
     requiredSteps,
     progressMeta,
     completeSessionIds,
