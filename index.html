@@ -371,7 +371,8 @@ window.SensometrixDesign=(()=>{
     renderBuilder();
   </script>
   <script src="qrcode.min.js"></script>
-  <script src="sensometrix-core.js"></script>
+  <script src="sensometrix-owner-onboarding.js"></script>
+<script src="sensometrix-core.js"></script>
   <script src="sensometrix-reports.js"></script>
   <script src="config.js"></script>
   <script>
@@ -467,8 +468,8 @@ window.SensometrixDesign=(()=>{
       }catch(error){authNote(error.message,'error')}finally{joiningPanelist=false;setBusy($('joinStudyButton'),false)}
     };
 
-    async function routeSession(session){if(joiningPanelist)return;currentUser=session?.user||null;if(!currentUser){accountV4=null;accountRequestV4++;if(planDialog.open)planDialog.close();if(planAdminDialog.open)planAdminDialog.close();panelLoadRequest++;studiesRequest++;analysisRequest++;monitorRequest++;overviewRequest++;selectLiveStudy(null,'');activeResultBundle=null;lastRaw=null;panelState={session:null};authGate.classList.remove('hidden');$('panelistApp').classList.remove('open');return}if(isAnonymous(currentUser)){await resumePanelist();return}authGate.classList.add('hidden');$('panelistApp').classList.remove('open');await loadResearcher()}
-    async function loadResearcher(){syncing(true,'Memuat workspace…');const {data:profile}=await db.from('profiles').select('*').eq('id',currentUser.id).maybeSingle();currentProfile=profile;const name=profile?.full_name||currentUser.user_metadata?.full_name||currentUser.email?.split('@')[0]||'Researcher',isAdmin=profile?.role==='admin';$('profileName').textContent=name+(isAdmin?' · Admin':'');$('profileEmail').textContent=currentUser.email||'Supabase account';$('profileAvatar').textContent=name.split(/\s+/).slice(0,2).map(x=>x[0]).join('').toUpperCase();$('adminNavButton').classList.toggle('visible',isAdmin);await loadStudies();await refreshAccountV4();syncing(false)}
+    async function routeSession(session){if(joiningPanelist)return;currentUser=session?.user||null;if(!currentUser){window.SensometrixOwnerAgreement?.reset();accountV4=null;accountRequestV4++;if(planDialog.open)planDialog.close();if(planAdminDialog.open)planAdminDialog.close();panelLoadRequest++;studiesRequest++;analysisRequest++;monitorRequest++;overviewRequest++;selectLiveStudy(null,'');activeResultBundle=null;lastRaw=null;panelState={session:null};authGate.classList.remove('hidden');$('panelistApp').classList.remove('open');return}if(isAnonymous(currentUser)){await resumePanelist();return}authGate.classList.add('hidden');$('panelistApp').classList.remove('open');await loadResearcher()}
+    async function loadResearcher(){const agreementUser=currentUser;if(!await window.SensometrixOwnerAgreement.ensure({db,user:agreementUser,language:lang(),onLogout:async()=>{const r=await db.auth.signOut();if(r.error)throw r.error;}})||currentUser?.id!==agreementUser.id)return;syncing(true,'Memuat workspace…');const {data:profile}=await db.from('profiles').select('*').eq('id',currentUser.id).maybeSingle();currentProfile=profile;const name=profile?.full_name||currentUser.user_metadata?.full_name||currentUser.email?.split('@')[0]||'Researcher',isAdmin=profile?.role==='admin';$('profileName').textContent=name+(isAdmin?' · Admin':'');$('profileEmail').textContent=currentUser.email||'Supabase account';$('profileAvatar').textContent=name.split(/\s+/).slice(0,2).map(x=>x[0]).join('').toUpperCase();$('adminNavButton').classList.toggle('visible',isAdmin);await loadStudies();await refreshAccountV4();syncing(false)}
     function fillStudySelectors(){
       for(const id of ['analysisStudySelect','monitorStudySelect']){
         const el=$(id),previous=el.value;
