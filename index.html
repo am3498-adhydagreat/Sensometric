@@ -959,13 +959,50 @@ window.SensometrixDesign=(()=>{
       if(!result.error&&!result.data)result=await db.from('panelist_sessions').select('*').eq('auth_user_id',currentUser.id).order('created_at',{ascending:false}).limit(1).maybeSingle();
       if(result.error||!result.data){authGate.classList.remove('hidden');return;}await startPanelist(result.data.id,currentUser);
     }
+
+    const consentVersion='sensometrix-consent-v1';
+    const consentCopy={
+      id:{title:'Persetujuan panelis',info:'Anda akan menilai sampel atau menjawab pertanyaan untuk studi ini. Partisipasi bersifat sukarela dan Anda dapat berhenti kapan saja melalui tombol Keluar. Jawaban digunakan untuk analisis studi oleh penyelenggara. Sebelum mencicipi sampel, tanyakan bahan, alergen, prosedur, dan penggunaan data kepada peneliti. Jangan mencicipi jika bahan belum jelas atau tidak sesuai dengan kondisi Anda.',statement:'Saya telah menerima penjelasan studi dari peneliti, termasuk tujuan, prosedur, risiko, dan penggunaan data; mendapat kesempatan bertanya; serta bersedia berpartisipasi secara sukarela.',start:'Setuju & mulai survei →',leave:'Tidak setuju / keluar',error:'Persetujuan belum tersimpan. Silakan coba lagi.'},
+      en:{title:'Participant consent',info:'You will evaluate samples or answer questions for this study. Participation is voluntary and you may stop at any time using Exit. The organizer uses your answers for study analysis. Before tasting, ask the researcher about ingredients, allergens, procedures, and data use. Do not taste samples if ingredients are unclear or unsuitable for you.',statement:'I have received an explanation from the researcher about the study purpose, procedures, risks, and data use; had an opportunity to ask questions; and voluntarily agree to participate.',start:'Agree & start survey →',leave:'Decline / exit',error:'Consent was not saved. Please try again.'}
+    };
+    async function requirePanelistConsent(sessionId,request,userId){
+      const status=await db.rpc('sensometrix_consent_v1',{p_session_id:sessionId});
+      if(status.error)throw status.error;
+      if(request!==panelLoadRequest||currentUser?.id!==userId)return false;
+      if(status.data?.accepted===true)return true;
+      const locale=lang()==='en'?'en':'id',c=consentCopy[locale];
+      authGate.classList.add('hidden');$('panelistApp').classList.add('open');
+      $('panelistStudyName').innerHTML=contentText(panelState.study,'name');
+      $('panelistSampleTitle').textContent=c.title;$('panelistInstruction').textContent='';
+      $('panelistMethod').textContent='INFORMED CONSENT';$('panelistProgressBar').style.width='0';
+      $('savePanelistResponse').style.display='none';$('panelistSaveStatus').textContent='';
+      $('panelistQuestions').innerHTML=`<section class="panelist-question" translate="no"><h3 tabindex="-1" id="consentHeading">${safe(c.title)}</h3><p id="consentInformation" style="font-size:14px;line-height:1.7">${safe(c.info)}</p><label style="display:flex;gap:12px;align-items:flex-start;line-height:1.6;cursor:pointer"><input id="panelistConsent" type="checkbox" required aria-describedby="consentInformation" style="width:20px;height:20px;flex-shrink:0;margin-top:4px"><span>${safe(c.statement)}</span></label><div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:20px"><button class="primary" id="acceptPanelistConsent" disabled>${safe(c.start)}</button><button class="ghost" id="declinePanelistConsent">${safe(c.leave)}</button></div><p id="consentError" role="alert" style="margin-top:14px;color:#b9473a"></p></section>`;
+      $('consentHeading').focus();let saving=false;
+      const check=$('panelistConsent'),button=$('acceptPanelistConsent');
+      check.onchange=()=>{button.disabled=saving||!check.checked;};
+      $('declinePanelistConsent').onclick=()=>$('panelistSignOut').click();
+      button.onclick=async()=>{
+        if(saving||!check.checked||request!==panelLoadRequest||currentUser?.id!==userId)return;
+        saving=true;button.disabled=true;check.disabled=true;$('consentError').textContent='';
+        try{
+          const result=await db.rpc('sensometrix_consent_v1',{p_session_id:sessionId,p_accept:true,p_version:consentVersion,p_language:locale});
+          if(result.error||result.data?.accepted!==true)throw result.error||new Error(c.error);
+          if(request!==panelLoadRequest||currentUser?.id!==userId)return;
+          await startPanelist(sessionId,currentUser);
+        }catch(error){if(request===panelLoadRequest&&$('consentError'))$('consentError').textContent=c.error;}
+        finally{saving=false;check.disabled=false;button.disabled=!check.checked;}
+      };
+      return false;
+    }
+
     let panelLoadRequest=0;
     async function startPanelist(sessionId,user){const request=++panelLoadRequest;
-      currentUser=user||currentUser;const userId=currentUser?.id;syncing(true,'Menyiapkan sesi panelis…');
+      currentUser=user||currentUser;const userId=currentUser?.id;$('panelistQuestions').replaceChildren();$('savePanelistResponse').style.display='none';syncing(true,'Menyiapkan sesi panelis…');
       try{const {data,error}=await db.rpc('panelist_bundle',{p_session_id:sessionId});if(error)throw error;
         const translationResult=await db.rpc('sensometrix_panelist_translations_v2',{p_session_id:sessionId});if(translationResult.error)throw translationResult.error;data.study.content_translations=translationResult.data.study;for(const a of data.attributes){a.content_translations=translationResult.data.attributes[a.id]||{};a.config={...a.config,required:translationResult.data.required?.[a.id]!==false};}
         if(request!==panelLoadRequest||currentUser?.id!==userId)return;
         panelState={...data,userId,index:data.session.progress||0,isTriangle:data.study.method==='TRIANGLE',currentReplicate:1};
+        if(!await requirePanelistConsent(sessionId,request,userId))return;
         authGate.classList.add('hidden');$('panelistApp').classList.add('open');$('panelistStudyName').innerHTML=contentText(data.study,'name');$('savePanelistResponse').style.display='inline-flex';clearConfirmedPanelistDrafts(panelState);renderPanelistStep();restorePanelistDraft();
       }catch(error){if(request!==panelLoadRequest||currentUser?.id!==userId)return;authNote(error.message,'error');throw error}finally{if(request===panelLoadRequest)syncing(false)}
     }
