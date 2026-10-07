@@ -101,10 +101,12 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <link rel="stylesheet" href="sensometrix-v4.css">
   <style id="sensometrix-startup">
-    /* Design direction: research-led startup. Energy 2 / Rhythm 2 / Motion 1.
+    /* Design direction: RedJade-inspired product marketing. Energy 3 / Rhythm 2 / Motion 1.
        Green retains the existing identity; lime identifies the supported research methods.
        Existing Manrope and DM Sans retain recognition and keep forms legible.
-       The split composition separates product context from account access.
+       A full-width green hero gives the product priority over authentication.
+       Method tiles navigate to actual definitions; no industry coverage is invented.
+       The white header and rectangular controls follow the requested reference.
        The single bordered panel groups authentication; workflow text needs no cards.
        Spacing groups the four actual workflow stages and reflows on small screens.
        A light paper surface suits research reading and matches the workspace.
@@ -161,6 +163,49 @@
     #authGate :is(button,a,input,select,summary):focus-visible{outline:3px solid #175b42;outline-offset:4px}
     @media(max-width:900px){#authGate .auth-shell{gap:32px;grid-template-columns:minmax(0,1fr) minmax(320px,1fr)}#authGate h1{font-size:40px;letter-spacing:-1.3px}#authGate .auth-panel{padding:24px}#authGate .startup-workflow dl{grid-template-columns:repeat(2,minmax(0,1fr));gap:24px}}
     @media(max-width:680px){#authGate{padding:0 20px 24px}#authGate .startup-header{min-height:78px;gap:10px}#authGate .startup-wordmark{font-size:20px;gap:8px}#authGate .logo-mark{width:30px;height:30px;font-size:16px}#authGate .language-switch{font-size:12px;max-width:120px;padding:8px}#authGate .auth-shell{grid-template-columns:minmax(0,1fr);margin:32px auto;gap:28px}#authGate .auth-brand{padding:0}#authGate .startup-category{margin-bottom:16px}#authGate h1{font-size:38px;letter-spacing:-1.2px}#authGate .auth-brand>p{font-size:15px;margin:18px 0 20px}#authGate .auth-panel{padding:24px 20px}#authGate .startup-methods{font-size:12px}#authGate .startup-workflow dl{gap:24px 18px}#authGate .startup-workflow dd{font-size:13px}}
+    #authGate{padding:0 0 32px;background:#fff}
+    #authGate .product-width,#authGate .startup-header,#authGate .auth-shell,#authGate .startup-footer{width:min(1180px,calc(100% - 80px))}
+    #authGate .startup-header{min-height:96px;border:0;gap:28px}
+    #authGate .product-nav{display:flex;align-items:center;gap:28px;margin-left:auto}
+    #authGate .product-nav a{display:inline-flex;align-items:center;justify-content:center;min-height:44px;color:#254735;text-decoration:none;font-size:14px;font-weight:700;padding:8px 4px}
+    #authGate .product-nav a:hover{text-decoration:underline;text-underline-offset:5px}
+    #authGate .product-nav .nav-access{background:#17533f;color:#fff;padding:10px 24px;border-radius:2px}
+    #authGate .product-width{margin-inline:auto}
+    #authGate .product-hero{background:#17533f;color:#fff;padding:76px 0 82px}
+    #authGate .product-hero-layout{display:grid;grid-template-columns:1.15fr 1fr;gap:70px;align-items:center}
+    #authGate .product-kicker{font-size:13px;font-weight:600;line-height:1.5;margin:0 0 18px;color:#47624e}
+    #authGate .product-hero .product-kicker{color:#d8e9cf}
+    #authGate .product-hero h1{color:#fff;font-size:clamp(38px,4.2vw,58px);line-height:1.1;letter-spacing:-1.7px}
+    #authGate .product-hero-copy>p:not(.product-kicker){font-size:17px;line-height:1.7;color:#e0ecdf;margin:24px 0 28px;max-width:520px}
+    #authGate .product-cta{display:inline-flex;align-items:center;justify-content:center;min-height:48px;background:#cce874;color:#193d2c;font-size:14px;font-weight:700;text-decoration:none;padding:13px 22px;border:1px solid #cce874;border-radius:2px}
+    #authGate .product-cta:hover{background:#e0f39f}
+    #authGate .method-navigation{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+    #authGate .method-navigation a{display:flex;flex-direction:column;justify-content:center;min-height:142px;padding:24px;text-decoration:none;background:#fff;color:#17533f;border:2px solid #fff;transition:background .15s,border-color .15s}
+    #authGate .method-navigation a:hover{background:#edf5e6;border-color:#cce874}
+    #authGate .method-navigation strong{font:800 27px/1.2 Manrope,sans-serif;letter-spacing:-.7px;margin-bottom:12px}
+    #authGate .method-navigation span{font-size:13px;line-height:1.5;color:#506557}
+    #authGate .product-hero :is(a,button):focus-visible{outline-color:#cce874}
+    #authGate .product-features{display:grid;grid-template-columns:1fr 1.25fr;gap:90px;padding:78px 0}
+    #authGate .product-section-intro h2,#authGate .method-section h2,#authGate .auth-brand h2{font:800 clamp(28px,3vw,38px)/1.17 Manrope,sans-serif;letter-spacing:-1px;color:#193f2e}
+    #authGate .product-section-intro>p:last-child,#authGate .method-section-layout>div>p:last-child{font-size:16px;line-height:1.75;color:#506557;margin:20px 0 0}
+    #authGate .feature-narrative article{padding:0 0 24px;border-bottom:1px solid #d7e0d4;margin-bottom:24px}
+    #authGate .feature-narrative article:last-child{border:0;padding:0;margin:0}
+    #authGate .feature-narrative h3{font:700 21px/1.35 Manrope,sans-serif;letter-spacing:-.45px;color:#224b36}
+    #authGate .feature-narrative p{font-size:15px;line-height:1.7;color:#506557;margin:12px 0 0}
+    #authGate .method-section{background:#f0f4eb;padding:66px 0}
+    #authGate .method-section-layout{display:grid;grid-template-columns:1fr 1.25fr;gap:90px}
+    #authGate .method-definitions{margin:0}
+    #authGate .method-definitions>div{display:grid;grid-template-columns:104px 1fr;gap:20px;padding:20px 0;border-bottom:1px solid #cfdbca}
+    #authGate .method-definitions>div:first-child{padding-top:0}
+    #authGate .method-definitions>div:last-child{border:0;padding-bottom:0}
+    #authGate .method-definitions dt{font-size:17px;font-weight:700;color:#24503a}
+    #authGate .method-definitions dd{margin:0;font-size:15px;line-height:1.7;color:#47604c}
+    #authGate .auth-shell{grid-template-columns:1.15fr 1fr;margin:72px auto;gap:90px;align-items:center}
+    #authGate .auth-panel{border-radius:3px;box-shadow:none}
+    #authGate .startup-footer{display:block;margin-top:0}
+    #authGate :is(section,[id^="method"],#accountAccess){scroll-margin-top:24px}
+    @media(max-width:940px){#authGate .product-width,#authGate .startup-header,#authGate .auth-shell,#authGate .startup-footer{width:calc(100% - 48px)}#authGate .product-hero-layout,#authGate .product-features,#authGate .method-section-layout,#authGate .auth-shell{gap:36px}#authGate .product-nav{gap:16px}#authGate .product-hero{padding:54px 0}#authGate .method-navigation a{padding:18px;min-height:128px}#authGate .product-hero h1{font-size:42px}#authGate .product-features{padding:56px 0}}
+    @media(max-width:680px){#authGate{padding:0 0 24px}#authGate .product-width,#authGate .startup-header,#authGate .auth-shell,#authGate .startup-footer{width:calc(100% - 40px)}#authGate .startup-header{display:flex;flex-wrap:wrap;min-height:0;padding:18px 0 12px;gap:10px}#authGate .startup-wordmark{flex:1}#authGate .product-nav{order:3;margin:0;width:100%;justify-content:space-between;gap:10px;border-top:1px solid #e2e8dd;padding-top:8px}#authGate .product-nav a{font-size:13px}#authGate .product-nav .nav-access{padding:8px 22px}#authGate .product-hero{padding:40px 0 44px}#authGate .product-hero-layout,#authGate .product-features,#authGate .method-section-layout,#authGate .auth-shell{grid-template-columns:minmax(0,1fr);gap:30px}#authGate .product-hero h1{font-size:38px;letter-spacing:-1px}#authGate .product-hero-copy>p:not(.product-kicker){font-size:15px;margin:20px 0 24px}#authGate .method-navigation{gap:10px}#authGate .method-navigation a{min-height:112px;padding:16px}#authGate .method-navigation strong{font-size:23px}#authGate .method-navigation span{font-size:12px}#authGate .product-features{padding:44px 0}#authGate .method-section{padding:40px 0}#authGate .method-definitions>div{grid-template-columns:82px minmax(0,1fr);gap:12px}#authGate .method-definitions dd{font-size:14px}#authGate .auth-shell{margin:44px auto}#authGate .auth-panel{padding:24px 20px}}
     @media(prefers-reduced-motion:reduce){#authGate *{transition:none!important;animation:none!important}html{scroll-behavior:auto}}
   </style>
 </head>
@@ -168,15 +213,25 @@
 <a class="skip-link" href="#mainContent">Lewati navigasi / Skip navigation</a>
   <div class="auth-gate" id="authGate">
     <a class="skip-link" href="#startupAccessTitle">Langsung ke akses akun</a>
-    <header class="startup-header"><div class="startup-wordmark"><div class="logo-mark" aria-hidden="true">S</div><span>Sensometrix</span></div><select class="language-switch" data-language-switch aria-label="Language / Bahasa"><option value="id">ID · Indonesia</option><option value="en">EN · English</option></select></header>
-    <div class="auth-shell">
-      <section class="auth-brand"><div class="startup-category">Workspace untuk riset sensori</div><h1>Studi sensori, dari rancangan hingga hasil.</h1><p>Rancang kuesioner, atur penyajian sampel, dan kumpulkan penilaian panelis dalam satu alur kerja.</p><div class="startup-methods"><strong>Untuk pertanyaan riset yang berbeda.</strong><span>QDA · Hedonik · JAR · Triangle</span></div></section>
+    <header class="startup-header"><div class="startup-wordmark"><div class="logo-mark" aria-hidden="true">S</div><span>Sensometrix</span></div><nav class="product-nav" aria-label="Navigasi produk"><a href="#productFeatures">Fitur</a><a href="#studyMethods">Metode studi</a><a class="nav-access" href="#accountAccess">Masuk</a></nav><select class="language-switch" data-language-switch aria-label="Language / Bahasa"><option value="id">ID · Indonesia</option><option value="en">EN · English</option></select></header>
+    <section class="product-hero" aria-labelledby="productHeroTitle">
+      <div class="product-width product-hero-layout">
+        <div class="product-hero-copy"><p class="product-kicker">Sensometrix · Sensory research software</p><h1 id="productHeroTitle">Dari pengalaman sensori menjadi hasil riset.</h1><p>Rancang studi, kumpulkan penilaian panelis, dan analisis respons dalam satu workspace.</p><a class="product-cta" href="#accountAccess">Buka workspace penelitian</a></div>
+        <div class="method-navigation" aria-label="Pilihan metode studi"><a href="#methodQda"><strong>QDA</strong><span>Profil sensori</span></a><a href="#methodHedonic"><strong>Hedonik</strong><span>Kesukaan konsumen</span></a><a href="#methodJar"><strong>JAR</strong><span>Kesesuaian intensitas</span></a><a href="#methodTriangle"><strong>Triangle</strong><span>Perbedaan produk</span></a></div>
+      </div>
+    </section>
+    <section class="product-width product-features" id="productFeatures" aria-labelledby="startupWorkflowTitle">
+      <div class="product-section-intro"><p class="product-kicker">Alur penelitian</p><h2 id="startupWorkflowTitle">Satu workspace, seluruh alur studi.</h2><p>Persiapkan studi dengan terstruktur. Beri panelis alur penilaian yang jelas. Tinjau hasil setelah respons terkumpul.</p></div>
+      <div class="feature-narrative"><article><h3>Rancang penilaian sesuai pertanyaan riset.</h3><p>Susun atribut, format jawaban, dan skala penilaian sesuai studi.</p><p>Atur randomisasi dan urutan sampel sebelum sesi dimulai.</p></article><article><h3>Hubungkan studi dengan panelis.</h3><p>Bagikan undangan studi dan pantau progres penilaian.</p><p>Panelis menggunakan kode studi dan token pribadi untuk mengakses sesi mereka.</p></article><article><h3>Baca hasil, bukan hanya kumpulkan jawaban.</h3><p>Tinjau respons lengkap, bandingkan profil, dan ekspor hasil.</p><p>Pilih studi dan replikasi yang relevan saat memeriksa hasil analisis.</p></article></div>
+    </section>
+    <section class="method-section" id="studyMethods" aria-labelledby="methodSectionTitle"><div class="product-width method-section-layout"><div><p class="product-kicker">Metode studi</p><h2 id="methodSectionTitle">Pertanyaan berbeda. Pendekatan yang tepat.</h2><p>Pilih metode dan skala berdasarkan tujuan studi serta karakteristik panelis.</p></div><dl class="method-definitions"><div id="methodQda"><dt>QDA</dt><dd>Ukur intensitas atribut dengan panelis terlatih menggunakan skala garis.</dd></div><div id="methodHedonic"><dt>Hedonik</dt><dd>Gunakan penilaian kesukaan untuk memahami penerimaan konsumen terhadap produk.</dd></div><div id="methodJar"><dt>JAR</dt><dd>Tinjau apakah intensitas atribut dinilai terlalu rendah, sesuai, atau terlalu tinggi.</dd></div><div id="methodTriangle"><dt>Triangle</dt><dd>Uji apakah panelis dapat membedakan dua formula.</dd></div></dl></div></section>
+    <div class="auth-shell" id="accountAccess">
+      <section class="auth-brand"><div class="startup-category">Akses Sensometrix</div><h2>Riset dimulai di sini.</h2><p>Masuk untuk mengelola studi Anda, atau gabung sebagai panelis menggunakan undangan dari peneliti.</p><div class="startup-methods"><strong>Peneliti dan panelis, dua jalur yang jelas.</strong><span>Gunakan tab di panel akses untuk memilih peran Anda.</span></div></section>
       <section class="auth-panel" aria-labelledby="startupAccessTitle"><h2 id="startupAccessTitle" tabindex="-1">Masuk ke workspace</h2><p class="startup-form-intro">Akun untuk peneliti. Undangan untuk panelis.</p><div class="auth-tabs" role="group" aria-label="Pilih peran"><button class="active" data-auth-tab="researcher" aria-pressed="true" aria-controls="researcherAuth">Peneliti</button><button data-auth-tab="panelist" aria-pressed="false" aria-controls="panelistAuth">Panelis</button></div>
         <div class="auth-pane active" id="researcherAuth"><div class="form-group"><label for="authEmail">Email</label><input class="input" id="authEmail" type="email" autocomplete="email" placeholder="nama@institusi.ac.id"></div><div class="form-group"><label for="authPassword">Password</label><input class="input" id="authPassword" type="password" autocomplete="current-password" minlength="6" placeholder="Minimal 6 karakter"></div><div class="auth-actions"><button class="primary" id="signInButton">Masuk ke akun peneliti</button></div><details class="startup-register"><summary>Belum punya akun? Daftar</summary><p>Gunakan email dan password di atas, lalu isi nama lengkap Anda.</p><div class="form-group"><label for="authName">Nama lengkap</label><input class="input" id="authName" autocomplete="name" placeholder="Nama peneliti"></div><button class="ghost" id="signUpButton">Buat akun peneliti</button></details></div>
         <div class="auth-pane" id="panelistAuth"><p class="startup-form-intro">Siapkan kode studi dan token pribadi dari peneliti Anda.</p><div class="form-group"><label for="joinCode">Kode studi</label><input class="input" id="joinCode" autocomplete="off" maxlength="12" placeholder="Contoh: A1B2C3D4" style="text-transform:uppercase"></div><div class="form-group"><label for="participantCode">Token undangan</label><input class="input" id="participantCode" autocomplete="off" maxlength="64" placeholder="Token pribadi dari peneliti"></div><button class="primary" id="joinStudyButton" style="width:100%;margin-top:10px">Gabung sesi penilaian</button></div><div class="auth-message" id="authMessage" role="status" aria-live="polite"></div>
       </section>
     </div>
-    <section class="startup-workflow" aria-labelledby="startupWorkflowTitle"><h2 id="startupWorkflowTitle">Satu workspace, seluruh alur studi.</h2><dl><div><dt>Kuesioner</dt><dd>Susun atribut, format jawaban, dan skala penilaian sesuai studi.</dd></div><div><dt>Penyajian sampel</dt><dd>Atur randomisasi dan urutan sampel sebelum sesi dimulai.</dd></div><div><dt>Partisipasi panelis</dt><dd>Bagikan undangan studi dan pantau progres penilaian.</dd></div><div><dt>Hasil studi</dt><dd>Tinjau respons lengkap, bandingkan profil, dan ekspor hasil.</dd></div></dl></section>
     <footer class="startup-footer">Sensometrix · Workspace studi sensori</footer>
   </div>
   <div class="app" aria-hidden="true">
@@ -1279,6 +1334,36 @@ Object.assign(dictionary,{
   "Hasil studi":"Study results",
   "Tinjau respons lengkap, bandingkan profil, dan ekspor hasil.":"Review completed responses, compare profiles, and export results.",
   "Sensometrix · Workspace studi sensori":"Sensometrix · Sensory study workspace"
+});
+Object.assign(dictionary,{
+  "Navigasi produk":"Product navigation",
+  "Fitur":"Features",
+  "Metode studi":"Study methods",
+  "Dari pengalaman sensori menjadi hasil riset.":"Turn sensory experiences into research findings.",
+  "Rancang studi, kumpulkan penilaian panelis, dan analisis respons dalam satu workspace.":"Design studies, collect panelist evaluations, and analyze responses in one workspace.",
+  "Buka workspace penelitian":"Open the research workspace",
+  "Pilihan metode studi":"Study method options",
+  "Profil sensori":"Sensory profiles",
+  "Hedonik":"Hedonic",
+  "Kesukaan konsumen":"Consumer liking",
+  "Kesesuaian intensitas":"Intensity assessment",
+  "Perbedaan produk":"Product differences",
+  "Alur penelitian":"The research workflow",
+  "Persiapkan studi dengan terstruktur. Beri panelis alur penilaian yang jelas. Tinjau hasil setelah respons terkumpul.":"Structure your study, give panelists a clear evaluation flow, and review findings as responses are collected.",
+  "Rancang penilaian sesuai pertanyaan riset.":"Design evaluations around your research question.",
+  "Hubungkan studi dengan panelis.":"Connect your study with its panelists.",
+  "Panelis menggunakan kode studi dan token pribadi untuk mengakses sesi mereka.":"Panelists use a study code and personal token to access their session.",
+  "Baca hasil, bukan hanya kumpulkan jawaban.":"Go from collected responses to research findings.",
+  "Pilih studi dan replikasi yang relevan saat memeriksa hasil analisis.":"Choose the relevant study and replication when reviewing analysis results.",
+  "Pertanyaan berbeda. Pendekatan yang tepat.":"Different questions. Appropriate methods.",
+  "Pilih metode dan skala berdasarkan tujuan studi serta karakteristik panelis.":"Choose methods and scales around your study objectives and panelist characteristics.",
+  "Gunakan penilaian kesukaan untuk memahami penerimaan konsumen terhadap produk.":"Use liking ratings to understand consumer acceptance of a product.",
+  "Tinjau apakah intensitas atribut dinilai terlalu rendah, sesuai, atau terlalu tinggi.":"Assess whether an attribute is rated too low, just about right, or too high.",
+  "Akses Sensometrix":"Access Sensometrix",
+  "Riset dimulai di sini.":"Your research starts here.",
+  "Masuk untuk mengelola studi Anda, atau gabung sebagai panelis menggunakan undangan dari peneliti.":"Sign in to manage your studies, or join as a panelist with a researcher invitation.",
+  "Peneliti dan panelis, dua jalur yang jelas.":"Two clear paths for researchers and panelists.",
+  "Gunakan tab di panel akses untuk memilih peran Anda.":"Use the access tabs to choose your role."
 });
 const phrases=Object.keys(dictionary).sort((a,b)=>b.length-a.length);
 const phrasePattern=new RegExp("(?<![\\p{L}\\p{N}_])(?:"+phrases.map(x=>x.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")).join("|")+")(?![\\p{L}\\p{N}_])","giu");
