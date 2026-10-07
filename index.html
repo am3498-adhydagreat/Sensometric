@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#123c3a" />
-  <title>Sensometrix — Workspace Studi Sensori</title>
+  <title>Sensometrix | Workspace Studi Sensori</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap');
     :root{
@@ -100,19 +100,86 @@
   </style>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <link rel="stylesheet" href="sensometrix-v4.css">
+  <style id="sensometrix-startup">
+    /* Design direction: research-led startup. Energy 2 / Rhythm 2 / Motion 1.
+       Green retains the existing identity; lime identifies the supported research methods.
+       Existing Manrope and DM Sans retain recognition and keep forms legible.
+       The split composition separates product context from account access.
+       The single bordered panel groups authentication; workflow text needs no cards.
+       Spacing groups the four actual workflow stages and reflows on small screens.
+       A light paper surface suits research reading and matches the workspace.
+       Only hover transitions are added; no new visual assets or product claims.
+       Review draft: local browser preview was blocked by browser security policy.
+       Visual, keyboard, bilingual interaction, and mobile checks require staging. */
+    #authGate{position:relative;inset:auto;display:block;min-height:100svh;padding:0 5vw 32px;background:#f8faf6;color:#183e35;overflow:visible}
+    #authGate.hidden{display:none}
+    .app[aria-hidden="true"]{display:none}
+    body:has(#authGate:not(.hidden))>.skip-link{display:none}
+    #authGate .skip-link{z-index:200}
+    #authGate .startup-header{max-width:1180px;margin:auto;min-height:96px;display:flex;align-items:center;justify-content:space-between;gap:20px;border-bottom:1px solid #d5ded3}
+    #authGate .startup-wordmark{display:flex;gap:12px;align-items:center;font:800 23px Manrope,sans-serif;letter-spacing:-.7px}
+    #authGate .logo-mark{border-radius:8px;margin:0;width:36px;height:36px;font-size:18px}
+    #authGate .language-switch{min-height:44px;border-radius:5px;background:transparent;border-color:#a8b9ae;color:#254e41}
+    #authGate .auth-shell{max-width:1180px;width:100%;margin:56px auto 42px;display:grid;grid-template-columns:minmax(0,1.35fr) minmax(340px,1fr);gap:clamp(32px,6vw,88px);overflow:visible;background:transparent;border-radius:0;box-shadow:none;align-items:start}
+    #authGate .auth-brand{display:block;padding:24px 0 0;background:transparent;color:#183e35;overflow:visible}
+    #authGate .auth-brand:after{display:none}
+    #authGate .startup-category{font-size:14px;font-weight:600;color:#326a51;display:flex;align-items:center;gap:10px;margin-bottom:24px}
+    #authGate .startup-category:before{content:"";height:3px;width:32px;background:#668332}
+    #authGate h1{font:800 clamp(36px,4.4vw,60px)/1.09 Manrope,sans-serif;letter-spacing:-2px;max-width:660px;text-wrap:balance}
+    #authGate .auth-brand>p{font-size:17px;line-height:1.7;color:#506557;max-width:540px;margin:24px 0 30px}
+    #authGate .startup-methods{font-size:13px;line-height:1.8;color:#385542;border-left:3px solid #cce874;padding-left:15px;max-width:470px}
+    #authGate .startup-methods strong{display:block;font-size:14px;margin-bottom:4px;color:#254e41}
+    #authGate .auth-panel{min-width:0;padding:30px;background:#fff;border:1px solid #cbd8ce;border-radius:10px;box-shadow:0 10px 30px #16302f08}
+    #authGate .auth-panel h2{font-size:23px;letter-spacing:-.5px;margin:0}
+    #authGate .startup-form-intro{color:#52685a;font-size:14px;line-height:1.6;margin:8px 0 20px}
+    #authGate .auth-tabs{background:transparent;padding:0;border-bottom:1px solid #d4ddd3;border-radius:0;margin:20px 0 22px;gap:16px}
+    #authGate .auth-tabs button{min-height:46px;border-radius:0;border-bottom:3px solid transparent;color:#52685a;padding:10px 6px;font-size:14px;box-shadow:none;transition:border-color .15s,color .15s}
+    #authGate .auth-tabs button.active{border-bottom-color:#17604a;color:#154c3b;background:transparent}
+    #authGate .form-group{margin:16px 0}
+    #authGate .form-group label{display:block;font-size:14px;font-weight:600;color:#294e3c;line-height:1.5}
+    #authGate .input{width:100%;min-height:48px;border-radius:5px;border-color:#aebfb1;background:#fff;padding:12px;color:#163b2c;font-size:15px}
+    #authGate .input::placeholder{color:#67766c;opacity:1}
+    #authGate .primary,#authGate .ghost{min-height:46px;width:100%;border-radius:5px;box-shadow:none;font-size:14px;transform:none;transition:background .15s}
+    #authGate .primary{background:#17533f;color:#fff}
+    #authGate .primary:hover{background:#103e2e}
+    #authGate .ghost{border-color:#8eab98;color:#194b37}
+    #authGate .ghost:hover{background:#edf3e9}
+    #authGate .auth-actions{display:block;margin:20px 0 0}
+    #authGate .startup-register{border-top:1px solid #e0e6dd;margin-top:22px;padding-top:6px}
+    #authGate .startup-register summary{min-height:44px;padding:14px 0;cursor:pointer;font-size:14px;font-weight:600;color:#315c44}
+    #authGate .startup-register p{font-size:13px;line-height:1.6;color:#52685a;margin:4px 0}
+    #authGate .auth-message{font-size:14px;min-height:0;margin-top:16px}
+    #authGate .auth-message:empty{margin:0}
+    #authGate .auth-message.error{color:#972c21;padding:12px;background:#fff3ef;border-left:3px solid #972c21}
+    #authGate .auth-message.success{color:#17533f;padding:12px;background:#edf5e8;border-left:3px solid #17533f}
+    #authGate .startup-workflow{max-width:1180px;margin:0 auto;border-top:1px solid #cad8c9;padding-top:24px}
+    #authGate .startup-workflow h2{font-size:17px;letter-spacing:-.25px;margin-bottom:22px}
+    #authGate .startup-workflow dl{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:28px;margin:0}
+    #authGate .startup-workflow dt{font-size:15px;font-weight:700;color:#284c39;margin-bottom:8px}
+    #authGate .startup-workflow dd{margin:0;font-size:14px;line-height:1.65;color:#506557}
+    #authGate .startup-footer{max-width:1180px;margin:32px auto 0;border-top:1px solid #dbe3d7;padding-top:16px;font-size:12px;color:#536951}
+    #authGate :is(button,a,input,select,summary):focus-visible{outline:3px solid #175b42;outline-offset:4px}
+    @media(max-width:900px){#authGate .auth-shell{gap:32px;grid-template-columns:minmax(0,1fr) minmax(320px,1fr)}#authGate h1{font-size:40px;letter-spacing:-1.3px}#authGate .auth-panel{padding:24px}#authGate .startup-workflow dl{grid-template-columns:repeat(2,minmax(0,1fr));gap:24px}}
+    @media(max-width:680px){#authGate{padding:0 20px 24px}#authGate .startup-header{min-height:78px;gap:10px}#authGate .startup-wordmark{font-size:20px;gap:8px}#authGate .logo-mark{width:30px;height:30px;font-size:16px}#authGate .language-switch{font-size:12px;max-width:120px;padding:8px}#authGate .auth-shell{grid-template-columns:minmax(0,1fr);margin:32px auto;gap:28px}#authGate .auth-brand{padding:0}#authGate .startup-category{margin-bottom:16px}#authGate h1{font-size:38px;letter-spacing:-1.2px}#authGate .auth-brand>p{font-size:15px;margin:18px 0 20px}#authGate .auth-panel{padding:24px 20px}#authGate .startup-methods{font-size:12px}#authGate .startup-workflow dl{gap:24px 18px}#authGate .startup-workflow dd{font-size:13px}}
+    @media(prefers-reduced-motion:reduce){#authGate *{transition:none!important;animation:none!important}html{scroll-behavior:auto}}
+  </style>
 </head>
 <body>
 <a class="skip-link" href="#mainContent">Lewati navigasi / Skip navigation</a>
   <div class="auth-gate" id="authGate">
+    <a class="skip-link" href="#startupAccessTitle">Langsung ke akses akun</a>
+    <header class="startup-header"><div class="startup-wordmark"><div class="logo-mark" aria-hidden="true">S</div><span>Sensometrix</span></div><select class="language-switch" data-language-switch aria-label="Language / Bahasa"><option value="id">ID · Indonesia</option><option value="en">EN · English</option></select></header>
     <div class="auth-shell">
-      <section class="auth-brand"><div class="logo-mark">S</div><div class="eyebrow" style="color:#cce874">SENSOMETRIX CLOUD</div><h1>Kelola studi sensori Anda.</h1><p>Susun kuesioner, atur urutan penyajian sampel, dan lihat hasil penilaian panelis.</p><div class="auth-features"><span>✓ Studi dan jawaban tersimpan pada akun Anda</span><span>✓ Akses peneliti dan panelis dipisahkan</span><span>✓ Panelis masuk menggunakan undangan studi</span></div></section>
-      <section class="auth-panel"><div class="language-auth"><select class="language-switch" data-language-switch aria-label="Language / Bahasa"><option value="id">ID · Indonesia</option><option value="en">EN · English</option></select></div><span class="connection-pill">Akses akun &amp; undangan</span><h2 style="margin-top:18px">Masuk ke Sensometrix</h2><p style="color:var(--muted);font-size:13px">Pilih akses sesuai peran Anda.</p><div class="auth-tabs"><button class="active" data-auth-tab="researcher">Peneliti</button><button data-auth-tab="panelist">Panelis</button></div>
-        <div class="auth-pane active" id="researcherAuth"><div class="form-group"><label>Nama lengkap <small>(untuk pendaftaran)</small></label><input class="input" id="authName" autocomplete="name" placeholder="Nama peneliti"></div><div class="form-group"><label>Email</label><input class="input" id="authEmail" type="email" autocomplete="email" placeholder="nama@institusi.ac.id"></div><div class="form-group"><label>Password</label><input class="input" id="authPassword" type="password" autocomplete="current-password" minlength="6" placeholder="Minimal 6 karakter"></div><div class="auth-actions"><button class="primary" id="signInButton">Masuk</button><button class="ghost" id="signUpButton">Daftar</button></div></div>
-        <div class="auth-pane" id="panelistAuth"><div class="form-group"><label>Kode studi</label><input class="input" id="joinCode" autocomplete="off" maxlength="12" placeholder="Contoh: A1B2C3D4" style="text-transform:uppercase"></div><div class="form-group"><label>Token undangan</label><input class="input" id="participantCode" autocomplete="off" maxlength="64" placeholder="Token pribadi dari peneliti"></div><button class="primary" id="joinStudyButton" style="width:100%;margin-top:10px">Masuk ke sesi penilaian →</button></div><div class="auth-message" id="authMessage"></div>
+      <section class="auth-brand"><div class="startup-category">Workspace untuk riset sensori</div><h1>Studi sensori, dari rancangan hingga hasil.</h1><p>Rancang kuesioner, atur penyajian sampel, dan kumpulkan penilaian panelis dalam satu alur kerja.</p><div class="startup-methods"><strong>Untuk pertanyaan riset yang berbeda.</strong><span>QDA · Hedonik · JAR · Triangle</span></div></section>
+      <section class="auth-panel" aria-labelledby="startupAccessTitle"><h2 id="startupAccessTitle" tabindex="-1">Masuk ke workspace</h2><p class="startup-form-intro">Akun untuk peneliti. Undangan untuk panelis.</p><div class="auth-tabs" role="group" aria-label="Pilih peran"><button class="active" data-auth-tab="researcher" aria-pressed="true" aria-controls="researcherAuth">Peneliti</button><button data-auth-tab="panelist" aria-pressed="false" aria-controls="panelistAuth">Panelis</button></div>
+        <div class="auth-pane active" id="researcherAuth"><div class="form-group"><label for="authEmail">Email</label><input class="input" id="authEmail" type="email" autocomplete="email" placeholder="nama@institusi.ac.id"></div><div class="form-group"><label for="authPassword">Password</label><input class="input" id="authPassword" type="password" autocomplete="current-password" minlength="6" placeholder="Minimal 6 karakter"></div><div class="auth-actions"><button class="primary" id="signInButton">Masuk ke akun peneliti</button></div><details class="startup-register"><summary>Belum punya akun? Daftar</summary><p>Gunakan email dan password di atas, lalu isi nama lengkap Anda.</p><div class="form-group"><label for="authName">Nama lengkap</label><input class="input" id="authName" autocomplete="name" placeholder="Nama peneliti"></div><button class="ghost" id="signUpButton">Buat akun peneliti</button></details></div>
+        <div class="auth-pane" id="panelistAuth"><p class="startup-form-intro">Siapkan kode studi dan token pribadi dari peneliti Anda.</p><div class="form-group"><label for="joinCode">Kode studi</label><input class="input" id="joinCode" autocomplete="off" maxlength="12" placeholder="Contoh: A1B2C3D4" style="text-transform:uppercase"></div><div class="form-group"><label for="participantCode">Token undangan</label><input class="input" id="participantCode" autocomplete="off" maxlength="64" placeholder="Token pribadi dari peneliti"></div><button class="primary" id="joinStudyButton" style="width:100%;margin-top:10px">Gabung sesi penilaian</button></div><div class="auth-message" id="authMessage" role="status" aria-live="polite"></div>
       </section>
     </div>
+    <section class="startup-workflow" aria-labelledby="startupWorkflowTitle"><h2 id="startupWorkflowTitle">Satu workspace, seluruh alur studi.</h2><dl><div><dt>Kuesioner</dt><dd>Susun atribut, format jawaban, dan skala penilaian sesuai studi.</dd></div><div><dt>Penyajian sampel</dt><dd>Atur randomisasi dan urutan sampel sebelum sesi dimulai.</dd></div><div><dt>Partisipasi panelis</dt><dd>Bagikan undangan studi dan pantau progres penilaian.</dd></div><div><dt>Hasil studi</dt><dd>Tinjau respons lengkap, bandingkan profil, dan ekspor hasil.</dd></div></dl></section>
+    <footer class="startup-footer">Sensometrix · Workspace studi sensori</footer>
   </div>
-  <div class="app">
+  <div class="app" aria-hidden="true">
     <aside class="sidebar">
       <div class="logo"><div class="logo-mark">S</div><div class="logo-copy"><strong>Sensometrix</strong><small>Studi sensori</small></div></div>
       <div class="nav-label">Workspace</div>
@@ -449,7 +516,7 @@ window.SensometrixDesign=(()=>{
     function blindCode(seed){return String(100+((seed*137+211)%900))}
     function isAnonymous(user){return Boolean(user?.is_anonymous||user?.app_metadata?.provider==='anonymous')}
 
-    document.querySelectorAll('[data-auth-tab]').forEach(button=>button.onclick=()=>{document.querySelectorAll('[data-auth-tab]').forEach(x=>x.classList.toggle('active',x===button));$('researcherAuth').classList.toggle('active',button.dataset.authTab==='researcher');$('panelistAuth').classList.toggle('active',button.dataset.authTab==='panelist');authNote('')});
+    document.querySelectorAll('[data-auth-tab]').forEach(button=>button.onclick=()=>{document.querySelectorAll('[data-auth-tab]').forEach(x=>{x.classList.toggle('active',x===button);x.setAttribute('aria-pressed',String(x===button))});$('researcherAuth').classList.toggle('active',button.dataset.authTab==='researcher');$('panelistAuth').classList.toggle('active',button.dataset.authTab==='panelist');authNote('')});
     $('signInButton').onclick=async()=>{if(!db)return authNote('Library Supabase gagal dimuat. Periksa koneksi internet.','error');const email=$('authEmail').value.trim(),password=$('authPassword').value;if(!email||!password)return authNote('Email dan password wajib diisi.','error');if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))return authNote('Masukkan alamat email yang valid.','error');if(password.length<6)return authNote('Password minimal 6 karakter.','error');setBusy($('signInButton'),true,'Memproses…');const {error}=await db.auth.signInWithPassword({email,password});setBusy($('signInButton'),false);if(error)authNote(error.message,'error')};
     $('signUpButton').onclick=async()=>{if(!db)return authNote('Library Supabase gagal dimuat.','error');const full_name=$('authName').value.trim(),email=$('authEmail').value.trim(),password=$('authPassword').value;if(!full_name||!email||password.length<6)return authNote('Isi nama, email, dan password minimal 6 karakter.','error');setBusy($('signUpButton'),true,'Mendaftar…');const {data,error}=await db.auth.signUp({email,password,options:{data:{full_name},emailRedirectTo:location.origin+location.pathname}});setBusy($('signUpButton'),false);if(error)return authNote(error.message,'error');if(!data.session)authNote('Pendaftaran berhasil. Buka email konfirmasi, lalu kembali untuk masuk.','success')};
     $('signOutButton').onclick=()=>db.auth.signOut();
@@ -1185,6 +1252,34 @@ Object.assign(dictionary,{"Mean produk × atribut": "Mean product × attribute",
 Object.assign(dictionary,{"Metadata pertanyaan tidak dapat dibaca.": "Question metadata could not be read.", "Pilih": "Select", "Kode": "Code"});
 // Revised interface copy, with matching English translations.
 Object.assign(dictionary,{"Kelola studi sensori Anda.": "Manage your sensory studies.", "Susun kuesioner, atur urutan penyajian sampel, dan lihat hasil penilaian panelis.": "Build questionnaires, set sample serving orders, and view panelist results.", "Panelis masuk menggunakan undangan studi": "Panelists join with a study invitation", "Akses akun & undangan": "Account & invitation access", "Studi sensori": "Sensory studies", "Buat studi": "Create study", "Pilih metode, isi informasi studi, tentukan sampel, lalu periksa pengaturannya.": "Choose a method, enter study details, define samples, and review the settings.", "Ukur intensitas atribut dengan panelis terlatih menggunakan skala garis.": "Measure attribute intensity with trained panelists using line scales.", "Uji apakah panelis dapat membedakan dua formula.": "Test whether panelists can distinguish two formulations.", "Isi nama, lokasi, dan tujuan studi.": "Enter the study name, location, and purpose.", "Periksa dan buat studi": "Review and create study", "Periksa pengaturan sebelum menyimpan studi sebagai draft.": "Review the settings before saving the study as a draft.", "Lihat status studi, buka hasil, atau lanjutkan draft.": "Check study status, view results, or continue a draft.", "Tambahkan pertanyaan sesuai urutan yang akan dilihat panelis.": "Add questions in the order panelists will see them.", "Saat menyiapkan studi, atur nama atribut, label skala, opsi jawaban, randomisasi, dan pertanyaan wajib.": "During study setup, set attribute names, scale labels, answer options, randomization, and required questions.", "Edit kuesioner": "Edit questionnaire", "Pratinjau urutan penyajian": "Serving order preview", "Lihat hasil per studi, per replikasi, atau gabungan. Analisis hanya mencakup sesi penilaian yang lengkap.": "View results by study, by replication, or combined. Analysis includes completed evaluation sessions only.", "Lihat progres penilaian, sampel aktif, dan aktivitas terakhir setiap panelis.": "View each panelist’s evaluation progress, current sample, and latest activity.", "Kelola seluruh studi. Reset respons dan penghapusan studi dicatat dalam log administrator.": "Manage all studies. Response resets and study deletions are recorded in the administrator log.", "Simpan kuesioner": "Save questionnaire", "Penyusun kuesioner": "Questionnaire builder", "Kelola paket": "Manage plan", "Atur teks, gambar, format jawaban, rentang dan label skala, serta opsi jawaban.": "Set question text, images, answer format, scale range and labels, and answer options.", "Persiapan studi": "Study setup", "Daftar studi": "Study list", "Format pertanyaan": "Question formats", "Desain penyajian": "Serving design", "Analisis respons": "Response analysis", "Pengumpulan data": "Data collection", "Administrasi": "Administration", "Akses terbatas": "Restricted access", "Kuesioner studi": "Study questionnaire", "Pengaturan pertanyaan": "Question settings"});
+Object.assign(dictionary,{
+  "Langsung ke akses akun":"Skip to account access",
+  "Workspace untuk riset sensori":"A workspace for sensory research",
+  "Studi sensori, dari rancangan hingga hasil.":"Sensory studies, from design to results.",
+  "Rancang kuesioner, atur penyajian sampel, dan kumpulkan penilaian panelis dalam satu alur kerja.":"Design questionnaires, arrange sample serving orders, and collect panelist responses in one workflow.",
+  "Untuk pertanyaan riset yang berbeda.":"For different research questions.",
+  "QDA · Hedonik · JAR · Triangle":"QDA · Hedonic · JAR · Triangle",
+  "Masuk ke workspace":"Access your workspace",
+  "Akun untuk peneliti. Undangan untuk panelis.":"Accounts for researchers. Invitations for panelists.",
+  "Pilih peran":"Choose your role",
+  "Masuk ke akun peneliti":"Sign in as a researcher",
+  "Belum punya akun? Daftar":"New to Sensometrix? Create an account",
+  "Gunakan email dan password di atas, lalu isi nama lengkap Anda.":"Use the email and password above, then enter your full name.",
+  "Nama lengkap":"Full name",
+  "Buat akun peneliti":"Create researcher account",
+  "Siapkan kode studi dan token pribadi dari peneliti Anda.":"Have your study code and personal invitation token ready.",
+  "Gabung sesi penilaian":"Join an evaluation session",
+  "Satu workspace, seluruh alur studi.":"One workspace for the study workflow.",
+  "Kuesioner":"Questionnaires",
+  "Susun atribut, format jawaban, dan skala penilaian sesuai studi.":"Set attributes, response formats, and rating scales for your study.",
+  "Penyajian sampel":"Sample serving",
+  "Atur randomisasi dan urutan sampel sebelum sesi dimulai.":"Prepare randomization and sample orders before the session.",
+  "Partisipasi panelis":"Panelist participation",
+  "Bagikan undangan studi dan pantau progres penilaian.":"Share study invitations and monitor evaluation progress.",
+  "Hasil studi":"Study results",
+  "Tinjau respons lengkap, bandingkan profil, dan ekspor hasil.":"Review completed responses, compare profiles, and export results.",
+  "Sensometrix · Workspace studi sensori":"Sensometrix · Sensory study workspace"
+});
 const phrases=Object.keys(dictionary).sort((a,b)=>b.length-a.length);
 const phrasePattern=new RegExp("(?<![\\p{L}\\p{N}_])(?:"+phrases.map(x=>x.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")).join("|")+")(?![\\p{L}\\p{N}_])","giu");
 const normalizeLabel=value=>value.normalize('NFC').replace(/[\s\u200b\ufeff]+/g,' ').trim().toLocaleLowerCase('id');
