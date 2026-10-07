@@ -1288,7 +1288,8 @@ window.SensometrixDesign=(()=>{
     // Labels for existing form controls, without changing their IDs or submission semantics.
     document.querySelectorAll('.form-group').forEach(group=>{const label=group.querySelector('label'),input=group.querySelector('input[id],select[id],textarea[id]');if(label&&input&&!label.htmlFor)label.htmlFor=input.id;});
     $('globalSearch').setAttribute('aria-label','Cari studi / Search studies');document.querySelector('.mobile-menu').setAttribute('aria-label','Navigasi / Navigation');
-    document.querySelector('.connection-pill').textContent=tr('Akses akun & undangan','Account & invitation access');
+    const connectionPill=document.querySelector('.connection-pill');
+    if(connectionPill)connectionPill.textContent=tr('Akses akun & undangan','Account & invitation access');
 
     renderDesign=renderPreviewDesign;renderPreviewDesign();
     if(!db)authNote('Supabase client tidak dapat dimuat. Periksa koneksi internet dan config.js.','error');else{db.auth.onAuthStateChange((_event,session)=>setTimeout(()=>routeSession(session),0));db.auth.getSession().then(({data})=>routeSession(data.session))}
