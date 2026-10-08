@@ -208,6 +208,7 @@
     @media(max-width:680px){#authGate{padding:0 0 24px}#authGate .product-width,#authGate .startup-header,#authGate .auth-shell,#authGate .startup-footer{width:calc(100% - 40px)}#authGate .startup-header{display:flex;flex-wrap:wrap;min-height:0;padding:18px 0 12px;gap:10px}#authGate .startup-wordmark{flex:1}#authGate .product-nav{order:3;margin:0;width:100%;justify-content:space-between;gap:10px;border-top:1px solid #e2e8dd;padding-top:8px}#authGate .product-nav a{font-size:13px}#authGate .product-nav .nav-access{padding:8px 22px}#authGate .product-hero{padding:40px 0 44px}#authGate .product-hero-layout,#authGate .product-features,#authGate .method-section-layout,#authGate .auth-shell{grid-template-columns:minmax(0,1fr);gap:30px}#authGate .product-hero h1{font-size:38px;letter-spacing:-1px}#authGate .product-hero-copy>p:not(.product-kicker){font-size:15px;margin:20px 0 24px}#authGate .method-navigation{gap:10px}#authGate .method-navigation a{min-height:112px;padding:16px}#authGate .method-navigation strong{font-size:23px}#authGate .method-navigation span{font-size:12px}#authGate .product-features{padding:44px 0}#authGate .method-section{padding:40px 0}#authGate .method-definitions>div{grid-template-columns:82px minmax(0,1fr);gap:12px}#authGate .method-definitions dd{font-size:14px}#authGate .auth-shell{margin:44px auto}#authGate .auth-panel{padding:24px 20px}}
     @media(prefers-reduced-motion:reduce){#authGate *{transition:none!important;animation:none!important}html{scroll-behavior:auto}}
   </style>
+  <link rel="stylesheet" href="sensometrix-workflow.css">
 </head>
 <body>
 <a class="skip-link" href="#mainContent">Lewati navigasi / Skip navigation</a>
@@ -370,7 +371,7 @@ window.SensometrixDesign=(()=>{
 
 </script>
 <script>
-    const titles={overview:'Ringkasan',create:'Create Baru',studies:'Studi Saya',random:'Randomisasi',questions:'Pustaka Pertanyaan',analytics:'Hasil & Analitik',monitor:'Monitor Panelis',admin:'Manajemen Data'};
+    const titles={workflow:'Project Workspace',overview:'Ringkasan',create:'Create Baru',studies:'Studi Saya',random:'Randomisasi',questions:'Pustaka Pertanyaan',analytics:'Hasil & Analitik',monitor:'Monitor Panelis',admin:'Manajemen Data'};
     const showView=id=>{document.querySelectorAll('.view').forEach(v=>v.classList.toggle('active',v.id===id));document.querySelectorAll('.nav button[data-view]').forEach(b=>b.classList.toggle('active',b.dataset.view===id));document.getElementById('pageTitle').textContent=titles[id]||'Sensometrix';window.scrollTo(0,0)};
     document.addEventListener('click',e=>{const view=e.target.closest('[data-view]');if(view)showView(view.dataset.view);const action=e.target.closest('[data-action]')?.dataset.action;if(action==='new-study')document.getElementById('studyModal').classList.add('open');if(action==='close-modal')document.getElementById('studyModal').classList.remove('open');if(action==='panelist')document.getElementById('panelistPreview').classList.add('open');if(action==='close-phone')document.getElementById('panelistPreview').classList.remove('open')});
     const toast=msg=>{const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2600)};
@@ -496,6 +497,10 @@ window.SensometrixDesign=(()=>{
   <script src="sensometrix-owner-onboarding.js"></script>
 <script src="sensometrix-core.js"></script>
   <script src="sensometrix-reports.js"></script>
+  <script src="vendor/jszip.min.js"></script>
+  <script src="vendor/pptxgen.bundle.js"></script>
+  <script src="sensometrix-workflow-utils.js"></script>
+  <script src="sensometrix-workflow.js"></script>
   <script src="config.js"></script>
   <script>
   (()=>{
@@ -590,7 +595,7 @@ window.SensometrixDesign=(()=>{
       }catch(error){authNote(error.message,'error')}finally{joiningPanelist=false;setBusy($('joinStudyButton'),false)}
     };
 
-    async function routeSession(session){if(joiningPanelist)return;currentUser=session?.user||null;if(!currentUser){window.SensometrixOwnerAgreement?.reset();accountV4=null;accountRequestV4++;if(planDialog.open)planDialog.close();if(planAdminDialog.open)planAdminDialog.close();panelLoadRequest++;studiesRequest++;analysisRequest++;monitorRequest++;overviewRequest++;selectLiveStudy(null,'');activeResultBundle=null;lastRaw=null;panelState={session:null};authGate.classList.remove('hidden');$('panelistApp').classList.remove('open');document.querySelector('.app').setAttribute('aria-hidden','true');return}if(isAnonymous(currentUser)){await resumePanelist();return}authGate.classList.add('hidden');document.querySelector('.app').removeAttribute('aria-hidden');$('panelistApp').classList.remove('open');await loadResearcher()}
+    async function routeSession(session){if(joiningPanelist)return;if(currentUser?.id!==session?.user?.id)document.dispatchEvent(new CustomEvent('sensometrix:session'));currentUser=session?.user||null;if(!currentUser){window.SensometrixOwnerAgreement?.reset();accountV4=null;accountRequestV4++;if(planDialog.open)planDialog.close();if(planAdminDialog.open)planAdminDialog.close();panelLoadRequest++;studiesRequest++;analysisRequest++;monitorRequest++;overviewRequest++;selectLiveStudy(null,'');activeResultBundle=null;lastRaw=null;panelState={session:null};authGate.classList.remove('hidden');$('panelistApp').classList.remove('open');document.querySelector('.app').setAttribute('aria-hidden','true');return}if(isAnonymous(currentUser)){await resumePanelist();return}authGate.classList.add('hidden');document.querySelector('.app').removeAttribute('aria-hidden');$('panelistApp').classList.remove('open');await loadResearcher()}
     async function loadResearcher(){const agreementUser=currentUser;if(!await window.SensometrixOwnerAgreement.ensure({db,user:agreementUser,language:lang(),onLogout:async()=>{const r=await db.auth.signOut();if(r.error)throw r.error;}})||currentUser?.id!==agreementUser.id)return;syncing(true,'Memuat workspace…');const {data:profile}=await db.from('profiles').select('*').eq('id',currentUser.id).maybeSingle();currentProfile=profile;const name=profile?.full_name||currentUser.user_metadata?.full_name||currentUser.email?.split('@')[0]||'Researcher',isAdmin=profile?.role==='admin';$('profileName').textContent=name+(isAdmin?' · Admin':'');$('profileEmail').textContent=currentUser.email||'Supabase account';$('profileAvatar').textContent=name.split(/\s+/).slice(0,2).map(x=>x[0]).join('').toUpperCase();$('adminNavButton').classList.toggle('visible',isAdmin);await loadStudies();await refreshAccountV4();syncing(false)}
     function fillStudySelectors(){
       for(const id of ['analysisStudySelect','monitorStudySelect']){
@@ -1124,9 +1129,13 @@ window.SensometrixDesign=(()=>{
       try{const {data,error}=await db.rpc('panelist_bundle',{p_session_id:sessionId});if(error)throw error;
         const translationResult=await db.rpc('sensometrix_panelist_translations_v2',{p_session_id:sessionId});if(translationResult.error)throw translationResult.error;data.study.content_translations=translationResult.data.study;for(const a of data.attributes){a.content_translations=translationResult.data.attributes[a.id]||{};a.config={...a.config,required:translationResult.data.required?.[a.id]!==false};}
         if(request!==panelLoadRequest||currentUser?.id!==userId)return;
+        const eventResult=await db.rpc('sensometrix_panelist_event_v5',{p_session_id:sessionId});
+        if(eventResult.error)throw eventResult.error;
+        data.event=eventResult.data||{};if(data.event.language)window.SensometrixLanguage?.set(data.event.language);
+        if(request!==panelLoadRequest||currentUser?.id!==userId)return;
         panelState={...data,userId,index:data.session.progress||0,isTriangle:data.study.method==='TRIANGLE',currentReplicate:1};
         if(!await requirePanelistConsent(sessionId,request,userId))return;
-        authGate.classList.add('hidden');$('panelistApp').classList.add('open');$('panelistStudyName').innerHTML=contentText(data.study,'name');$('savePanelistResponse').style.display='inline-flex';clearConfirmedPanelistDrafts(panelState);renderPanelistStep();restorePanelistDraft();
+        authGate.classList.add('hidden');$('panelistApp').classList.add('open');$('panelistStudyName').innerHTML=data.event.title?safe(data.event.title):contentText(data.study,'name');let eventNote=$('wfPanelistInstructions');if(!eventNote){eventNote=document.createElement('div');eventNote.id='wfPanelistInstructions';eventNote.setAttribute('translate','no');$('panelistQuestions').before(eventNote);}eventNote.textContent=data.event.instructions||'';eventNote.hidden=!data.event.instructions;$('savePanelistResponse').style.display='inline-flex';clearConfirmedPanelistDrafts(panelState);renderPanelistStep();restorePanelistDraft();
       }catch(error){if(request!==panelLoadRequest||currentUser?.id!==userId)return;authNote(error.message,'error');throw error}finally{if(request===panelLoadRequest)syncing(false)}
     }
 
@@ -1291,6 +1300,10 @@ window.SensometrixDesign=(()=>{
     const connectionPill=document.querySelector('.connection-pill');
     if(connectionPill)connectionPill.textContent=tr('Akses akun & undangan','Account & invitation access');
 
+    if(db&&window.SensometrixWorkflow)window.SensometrixWorkflow.mount({db,user:()=>currentUser,studies:()=>workspaceStudies,
+      create:createStudyRecord,reload:loadStudies,bundle:loadStudyBundle,design:openDesign,
+      questions:async id=>{await openDesign(id);if(activeStudy?.id===id)await openProjectQuestionnaire();},
+      analysis:id=>openResearcherView('analytics',id),invitations:openInvitations});
     renderDesign=renderPreviewDesign;renderPreviewDesign();
     if(!db)authNote('Supabase client tidak dapat dimuat. Periksa koneksi internet dan config.js.','error');else{db.auth.onAuthStateChange((_event,session)=>setTimeout(()=>routeSession(session),0));db.auth.getSession().then(({data})=>routeSession(data.session))}
   })();
